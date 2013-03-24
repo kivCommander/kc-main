@@ -19,7 +19,7 @@ public class HelloWorldMain {
 	 * @param args command line arguments. Not in use.
 	 */
 	public static void main(String[] args) {
-		System.out.println("Hello famous kivCommander.");
+		System.out.println("Hello famou kivCommander.");
 
 	}
 
