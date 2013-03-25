@@ -20,6 +20,7 @@ public class HelloWorldMain {
 	 */
 	public static void main(String[] args) {
 		System.out.println("Hello famous kivCommander.");
+		System.out.println("Hello famous kivCommander.Lukas.");
 
 	}
 
