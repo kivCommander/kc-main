@@ -23,6 +23,7 @@ public class HelloWorldMain {
 		System.out.println("Hello famous kivCommander.Lukas.");
 		System.out.println("Hello famous kivCommander.Tomas."); //tomas pospisil
 		System.out.println("Hello famous kivCommander.Jirka.");
+		System.out.println("Hello fanous kivCommander.Michal.");
 
 	}
 
