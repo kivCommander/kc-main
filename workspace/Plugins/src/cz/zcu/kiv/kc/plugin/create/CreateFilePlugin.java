@@ -10,7 +10,7 @@ public class CreateFilePlugin implements ICreateFilePlugin  {
 	public void executeAction(List<File> selectedFiles, String destinationPath,
 			String sourcePath) {
 		try {
-			new File(destinationPath + File.pathSeparator + System.nanoTime()).createNewFile();
+			new File(destinationPath + File.separator + System.nanoTime()).createNewFile();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
