@@ -1,7 +1,6 @@
 package cz.zcu.kiv.kc.shell;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.io.File;
 import java.util.List;
@@ -19,7 +18,6 @@ public class ShellView extends JPanel {
 	private JPanel actions = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
 	public ShellView() {
-		setBackground(Color.blue);
 		setLayout(new BorderLayout());	
 		leftDirectoryView.setBorder(BorderFactory.createTitledBorder("Left panel"));
 		rightDirectoryView.setBorder(BorderFactory.createTitledBorder("Right panel"));

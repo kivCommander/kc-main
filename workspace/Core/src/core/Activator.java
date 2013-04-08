@@ -1,10 +1,10 @@
 package core;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleActivator;
@@ -42,12 +42,7 @@ public class Activator implements BundleActivator {
 		SwingUtilities.invokeAndWait(new Runnable() {
 			@Override
 			public void run() {
-				try {
-					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} 
+				frame.setPreferredSize(new Dimension(800, 600));
 				frame.setLayout(new BorderLayout());
 				frame.add(shell.getView());
 				frame.pack();
