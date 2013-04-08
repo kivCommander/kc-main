@@ -79,9 +79,7 @@ Export-Package: org.springframework.osgi;version="1.2.1",
  org.springframework.osgi.util;version="1.2.1";uses:="org.apache.commons.logging,org.osgi.framework,org.springframework.util"
 Implementation-Version: 1.2.1
 Spring-DM-Version: 1.2.1
-Import-Package: org.aopalliance.aop;version="0.0.0",
- org.aopalliance.intercept;version="0.0.0",
- org.apache.commons.logging;version="[1.0,2.0)",
+Import-Package: org.apache.commons.logging;version="[1.0,2.0)",
  org.osgi.framework;version="1.3",
  org.osgi.service.cm;version="1.2";resolution:=optional,
  org.osgi.service.packageadmin;version="1.2",
