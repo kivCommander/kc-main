@@ -9,14 +9,13 @@ public class Activator implements BundleActivator {
 
 	@Override
 	public void start(BundleContext arg0) throws Exception {
-		appContext = new ClassPathXmlApplicationContext(
-		        new String[] {"bundle-context.xml", "bundle-context-osgi.xml"});
+//		appContext = new ClassPathXmlApplicationContext(
+//		        new String[] {"bundle-context.xml", "bundle-context-osgi.xml"});
 	}
 
 	@Override
 	public void stop(BundleContext arg0) throws Exception {
 		// TODO Auto-generated method stub
-
 	}
 
 }

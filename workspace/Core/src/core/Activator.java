@@ -1,11 +1,8 @@
 package core;
 
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
@@ -15,6 +12,7 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 
 import cz.zcu.kiv.kc.plugin.Plugin;
+import cz.zcu.kiv.kc.plugin.TestPlugin;
 import cz.zcu.kiv.kc.shell.ShellController;
 
 public class Activator implements BundleActivator {
@@ -41,20 +39,25 @@ public class Activator implements BundleActivator {
 				}
 			}
 		}
-		UIManager.setLookAndFeel(UIManager
-				.getCrossPlatformLookAndFeelClassName());
 		SwingUtilities.invokeAndWait(new Runnable() {
 			@Override
 			public void run() {
-				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				frame.setPreferredSize(new Dimension(800, 600));
-				JPanel content = new JPanel(new GridBagLayout());
-				frame.getContentPane().add(content);
-				content.add(shell.getView(), new GridBagConstraints());
+				try {
+					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} 
+				frame.setLayout(new BorderLayout());
+				frame.add(shell.getView());
 				frame.pack();
+				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 				frame.setVisible(true);
 			}
 		});
+		
+		// TODO
+		shell.addPlugin(new TestPlugin());
 	}
 
 	public void stop(BundleContext context) throws Exception {

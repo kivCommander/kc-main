@@ -1,8 +1,6 @@
 package cz.zcu.kiv.kc.shell;
 
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -11,6 +9,7 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 
@@ -25,10 +24,10 @@ public class DirectoryPanel extends JPanel implements ActionListener {
 
 	private static final int REFRESH_DELAY = 1000;
 
-	public DirectoryPanel() {
+	public DirectoryPanel() { 
 		Timer timer = new Timer(REFRESH_DELAY, this);
 		timer.start();
-		setLayout(new GridBagLayout());
+		setLayout(new BorderLayout());
 		JButton go = new JButton("GO");
 		go.addActionListener(new ActionListener() {
 			@Override
@@ -37,15 +36,11 @@ public class DirectoryPanel extends JPanel implements ActionListener {
 
 			}
 		});
-		JPanel menu = new JPanel();
-		menu.add(field);
-		menu.add(go);
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.fill = GridBagConstraints.BOTH;
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		add(menu, gbc.gridy++);
-		add(list, gbc);
+		JPanel menu = new JPanel(new BorderLayout());
+		menu.add(field, BorderLayout.CENTER);
+		menu.add(go, BorderLayout.LINE_END);
+		add(menu, BorderLayout.PAGE_START);
+		add(new JScrollPane(list), BorderLayout.CENTER);
 	}
 
 	@Override
