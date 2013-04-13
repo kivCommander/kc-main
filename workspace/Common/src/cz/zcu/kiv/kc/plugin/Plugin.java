@@ -8,7 +8,6 @@ import java.util.List;
  *
  */
 public interface Plugin {	
-	void executeAction(List<File> selectedFiles, String destinationPath, String sourcePath);	
-	String getId();	
+	void executeAction(List<File> selectedFiles, String destinationPath, String sourcePath);
 	String getName();
 }

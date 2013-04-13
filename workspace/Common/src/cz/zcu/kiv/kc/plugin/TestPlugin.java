@@ -19,11 +19,6 @@ public class TestPlugin implements Plugin {
 	}
 
 	@Override
-	public String getId() {
-		return "test";
-	}
-
-	@Override
 	public String getName() {
 		return "Test action";
 	}

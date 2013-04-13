@@ -5,3 +5,6 @@ Bundle-SymbolicName: Common
 Bundle-Version: 1.0.0.qualifier
 Export-Package: cz.zcu.kiv.kc.plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Require-Bundle: org.eclipse.osgi.services;bundle-version="3.3.100",
+ org.eclipse.osgi;bundle-version="3.8.2",
+ org.eclipse.equinox.event;bundle-version="1.2.200"

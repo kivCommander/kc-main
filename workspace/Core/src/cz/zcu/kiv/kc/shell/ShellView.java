@@ -18,15 +18,19 @@ public class ShellView extends JPanel {
 	private JPanel actions = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
 	public ShellView() {
-		setLayout(new BorderLayout());	
-		leftDirectoryView.setBorder(BorderFactory.createTitledBorder("Left panel"));
-		rightDirectoryView.setBorder(BorderFactory.createTitledBorder("Right panel"));
-		JSplitPane jSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftDirectoryView, rightDirectoryView);
+		setLayout(new BorderLayout());
+		leftDirectoryView.setBorder(BorderFactory
+				.createTitledBorder("Left panel"));
+		rightDirectoryView.setBorder(BorderFactory
+				.createTitledBorder("Right panel"));
+		JSplitPane jSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
+				leftDirectoryView, rightDirectoryView);
 		jSplitPane.setOneTouchExpandable(true);
 		jSplitPane.setResizeWeight(0.5);
-		add(jSplitPane, BorderLayout.CENTER);	
-		actions.setBorder(BorderFactory.createTitledBorder("Actions")); 
+		add(jSplitPane, BorderLayout.CENTER);
+		actions.setBorder(BorderFactory.createTitledBorder("Actions"));
 		add(actions, BorderLayout.PAGE_END);
+		refresh();
 	}
 
 	public String getDestinationFolder() {
@@ -38,13 +42,25 @@ public class ShellView extends JPanel {
 	}
 
 	public void addButton(JButton button) {
-		// TODO
 		actions.add(button);
 	}
 
 	public void removeButton(JButton button) {
-		// TODO
 		actions.remove(button);
 	}
 
+	public void refresh(String dir) {
+		if (new File(leftDirectoryView.getCurrentFolder()).equals(new File(dir))) {
+			leftDirectoryView.refreshLists();
+		}
+		if (new File(rightDirectoryView.getCurrentFolder()).equals(new File(dir))) {
+			rightDirectoryView.refreshLists();
+		}
+	}
+
+	public void refresh() {
+		leftDirectoryView.refreshLists();
+		rightDirectoryView.refreshLists();
+		
+	}
 }

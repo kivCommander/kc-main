@@ -2,60 +2,55 @@ package core;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.util.Set;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceReference;
+import org.osgi.service.event.Event;
+import org.osgi.service.event.EventHandler;
 
 import cz.zcu.kiv.kc.plugin.Plugin;
 import cz.zcu.kiv.kc.plugin.TestPlugin;
 import cz.zcu.kiv.kc.shell.ShellController;
 
-public class Activator implements BundleActivator {
+public class Activator implements EventHandler {
 	private final ShellController shell = new ShellController();
 	private final JFrame frame = new JFrame("kivCommander");
+	private Set<Plugin> plugins;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext
-	 * )
-	 */
-	public void start(BundleContext context) throws Exception {
-		Bundle[] bundles = context.getBundles();
-		for (Bundle budle : bundles) {
-			ServiceReference<?>[] services = budle.getRegisteredServices();
-			if (services != null) {
-				for (ServiceReference<?> serviceReference : services) {
-					Object service = context.getService(serviceReference);
-					if (service instanceof Plugin) {
-						shell.addPlugin((Plugin) service);
-					}
-				}
-			}
-		}
+	public void start() throws Exception {
 		SwingUtilities.invokeAndWait(new Runnable() {
 			@Override
 			public void run() {
+				shell.addPlugin(new TestPlugin());
+				for (Object plugin : plugins) {
+					shell.addPlugin((Plugin) plugin);
+				}
 				frame.setPreferredSize(new Dimension(800, 600));
 				frame.setLayout(new BorderLayout());
 				frame.add(shell.getView());
 				frame.pack();
-				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				frame.setVisible(true);
+				shell.refresh();
 			}
 		});
-		
-		// TODO
-		shell.addPlugin(new TestPlugin());
+
 	}
 
 	public void stop(BundleContext context) throws Exception {
 		frame.setVisible(false);
+	}
+
+	public void setPlugins(final Set<Plugin> plugins) {
+		this.plugins = plugins;
+	}
+
+	@Override
+	public void handleEvent(Event event) {
+		String dir = (String) event.getProperty("dir");
+		shell.refresh(dir);
 	}
 }

@@ -30,16 +30,24 @@ public class ShellController {
 		JButton button = new JButton();
 		button.setText(plugin.getName());
 		button.addActionListener(new PluginButtonListener(plugin, this));
-		buttons.put(plugin.getId(), button);
+		buttons.put(plugin.getName(), button);
 		view.addButton(button);		
 	}
 
 	public void removePlugin(Plugin plugin) {
-		JButton button = buttons.remove(plugin.getId());
+		JButton button = buttons.remove(plugin.getName());
 		view.removeButton(button);
 	}
 
 	public Component getView() {
 		return view;
+	}
+
+	public void refresh(String dir) {
+		view.refresh(dir);			
+	}
+
+	public void refresh() {
+		view.refresh();			
 	}
 }

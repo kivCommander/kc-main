@@ -26,9 +26,10 @@ public class DirectoryPanel extends JPanel implements ActionListener {
 
 	private FileListModel listModel = new FileListModel();
 	private JList<File> list = new JList<File>(listModel);
-	private JTextField field = new JTextField();
+	private String currentFolder = new File("\\").getAbsolutePath();
+	private JTextField field = new JTextField(currentFolder);
 
-	private static final int REFRESH_DELAY = 1000;
+	private static final int REFRESH_DELAY = 10000; // TODO
 
 	public DirectoryPanel() {
 		Timer timer = new Timer(REFRESH_DELAY, this);
@@ -38,6 +39,7 @@ public class DirectoryPanel extends JPanel implements ActionListener {
 		go.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				currentFolder = field.getText();
 				listModel.setDirPath(field.getText());
 				list.setSelectedIndex(0);
 			}
@@ -59,24 +61,27 @@ public class DirectoryPanel extends JPanel implements ActionListener {
 						field.setText(file.getAbsolutePath());
 						listModel.setDirPath(field.getText());
 						list.setSelectedIndex(0);
+						currentFolder = field.getText();
 					}
 				}
 			}
 		});
 		list.setCellRenderer(new DefaultListCellRenderer() {
 			private static final long serialVersionUID = -8566161868989812047L;
+
 			@Override
 			public Component getListCellRendererComponent(
-					@SuppressWarnings("rawtypes") JList list, Object value, int index,
-					boolean isSelected, boolean cellHasFocus) {
+					@SuppressWarnings("rawtypes") JList list, Object value,
+					int index, boolean isSelected, boolean cellHasFocus) {
 				JLabel jLabel = (JLabel) super.getListCellRendererComponent(
-						list, value, index,isSelected, cellHasFocus);
+						list, value, index, isSelected, cellHasFocus);
 				if (value instanceof FirstFile) {
 					jLabel.setText("..");
 				} else {
 					jLabel.setIcon(FileSystemView.getFileSystemView()
-							.getSystemIcon((File)value));
-					jLabel.setText(((File)value).getName());
+							.getSystemIcon((File) value));
+					jLabel.setText(value == null ? null : ((File) value)
+							.getName());
 				}
 				return jLabel;
 			}
@@ -85,21 +90,21 @@ public class DirectoryPanel extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
+		refreshLists();
+	}
+
+	public void refreshLists() {
 		if (refreshInProgress) {
 			// previous refresh is in process, skip this round
 		} else {
 			refreshInProgress = true;
-			refreshLists();
+			listModel.refresh();
 			refreshInProgress = false;
 		}
 	}
 
-	private void refreshLists() {
-		listModel.refresh();
-	}
-
 	public String getCurrentFolder() {
-		return field.getText();
+		return currentFolder;
 	}
 
 	public List<File> getSelectedFiles() {

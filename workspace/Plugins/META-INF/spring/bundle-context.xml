@@ -4,7 +4,11 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="createFilePlugin" class="cz.zcu.kiv.kc.plugin.create.CreateFilePlugin" />
-	<bean id="deleteFilePlugin" class="cz.zcu.kiv.kc.plugin.delete.DeleteFilePlugin" />
+	<bean id="createFilePlugin" class="cz.zcu.kiv.kc.plugin.create.CreateFilePlugin">
+		<property name="eventAdmin" ref="eventAdmin" />
+	</bean>
+	<bean id="deleteFilePlugin" class="cz.zcu.kiv.kc.plugin.delete.DeleteFilePlugin">
+		<property name="eventAdmin" ref="eventAdmin" />
+	</bean>
 
 </beans>
