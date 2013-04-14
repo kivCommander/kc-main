@@ -37,7 +37,6 @@ public class Activator implements EventHandler {
 				shell.refresh();
 			}
 		});
-
 	}
 
 	public void stop(BundleContext context) throws Exception {

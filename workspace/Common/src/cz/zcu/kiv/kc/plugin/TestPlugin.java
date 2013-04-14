@@ -10,9 +10,6 @@ public class TestPlugin implements Plugin {
 
 	@Override
 	public void executeAction(List<File> selectedFiles, String destinationPath, String sourcePath) {
-		System.out.println("Plugin executed: selectedFiles='"
-				+ Arrays.toString(selectedFiles.toArray())
-				+ "', destinationPath='" + destinationPath + "'");
 		JOptionPane.showMessageDialog(null,
 				"Selected items='" + Arrays.toString(selectedFiles.toArray())
 						+ "', destinationPath='" + destinationPath + "'");

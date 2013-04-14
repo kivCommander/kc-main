@@ -136,4 +136,8 @@ public class DirectoryPanel extends JPanel implements ActionListener,
 	public void addFocusListener(FocusListener listener){
 		listeners.add(listener);
 	}
+
+	public void clearSelection() {
+		list.clearSelection();
+	}
 }

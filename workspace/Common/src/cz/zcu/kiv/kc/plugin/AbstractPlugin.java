@@ -1,6 +1,9 @@
 package cz.zcu.kiv.kc.plugin;
 
 import java.util.HashMap;
+import java.util.ResourceBundle;
+
+import javax.swing.JOptionPane;
 
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventAdmin;
@@ -17,5 +20,13 @@ public abstract class AbstractPlugin implements Plugin {
 
 	public void setEventAdmin(EventAdmin eventAdmin) {
 		this.eventAdmin = eventAdmin;
+	}
+
+	protected String askForName(String title) {
+		return JOptionPane.showInputDialog(title);
+	}
+	
+	protected String getResource(String key){
+		return ResourceBundle.getBundle("bundle").getString(key);
 	}
 }

@@ -1,10 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Test
-Bundle-SymbolicName: Plugins;singleton:=true
+Bundle-SymbolicName: Plugins
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: cz.zcu.kiv.kc.plugin.Activator
-Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Require-Bundle: org.eclipse.osgi;bundle-version="3.8.2",
  Common;bundle-version="1.0.0",

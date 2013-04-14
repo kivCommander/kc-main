@@ -1,12 +1,9 @@
 package cz.zcu.kiv.kc.shell;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.font.TextAttribute;
 import java.io.File;
 import java.util.List;
 
@@ -14,7 +11,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
-import javax.swing.border.TitledBorder;
 
 public class ShellView extends JPanel implements FocusListener {
 
@@ -84,6 +80,11 @@ public class ShellView extends JPanel implements FocusListener {
 	@Override
 	public void focusGained(FocusEvent e) {
 		directoryViewWithFocus = (DirectoryPanel) e.getComponent();
+		if(directoryViewWithFocus == leftDirectoryView){
+			rightDirectoryView.clearSelection();
+		}else{
+			leftDirectoryView.clearSelection();
+		}
 	}
 
 	@Override

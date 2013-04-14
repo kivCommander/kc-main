@@ -10,9 +10,9 @@ public class CreateDirPlugin extends AbstractPlugin{
 	@Override
 	public void executeAction(List<File> selectedFiles, String destinationPath,
 			String sourcePath) {
-		new File(sourcePath + File.separator + System.nanoTime()).mkdir();
-		sendEvent(sourcePath);
-		
+		String name = askForName("New directory name:");
+		new File(sourcePath + File.separator + name).mkdir();
+		sendEvent(sourcePath);		
 	}
 
 	@Override

@@ -17,7 +17,7 @@ public class ZipFilePlugin extends AbstractPlugin {
 			String sourcePath) {
 		try {
 			ZipOutputStream out = new ZipOutputStream(new FileOutputStream(
-					destinationPath + File.separator + System.nanoTime()
+					destinationPath + File.separator + askForName("Zip fiile name:")
 							+ ".zip"));
 			for (File file : selectedFiles) {
 				FileInputStream in = new FileInputStream(file);
