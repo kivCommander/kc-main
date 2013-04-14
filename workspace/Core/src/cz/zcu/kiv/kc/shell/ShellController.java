@@ -26,6 +26,10 @@ public class ShellController {
 		return view.getDestinationFolder();
 	}
 
+	public String getSourcePath() {
+		return view.getSourcePath();
+	}
+
 	public void addPlugin(Plugin plugin) {
 		JButton button = new JButton();
 		button.setText(plugin.getName());

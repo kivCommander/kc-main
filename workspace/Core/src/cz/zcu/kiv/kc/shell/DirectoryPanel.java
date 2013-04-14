@@ -4,9 +4,12 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultListCellRenderer;
@@ -19,10 +22,12 @@ import javax.swing.JTextField;
 import javax.swing.Timer;
 import javax.swing.filechooser.FileSystemView;
 
-public class DirectoryPanel extends JPanel implements ActionListener {
+public class DirectoryPanel extends JPanel implements ActionListener,
+		FocusListener {
 	private static final long serialVersionUID = 840871288858771069L;
 
 	private boolean refreshInProgress = false;
+	private List<FocusListener> listeners = new ArrayList<FocusListener>(1);
 
 	private FileListModel listModel = new FileListModel();
 	private JList<File> list = new JList<File>(listModel);
@@ -86,6 +91,7 @@ public class DirectoryPanel extends JPanel implements ActionListener {
 				return jLabel;
 			}
 		});
+		list.addFocusListener(this);
 	}
 
 	@Override
@@ -109,5 +115,25 @@ public class DirectoryPanel extends JPanel implements ActionListener {
 
 	public List<File> getSelectedFiles() {
 		return list.getSelectedValuesList();
+	}
+
+	@Override
+	public void focusGained(FocusEvent arg0) {
+		FocusEvent event = new FocusEvent(this, FocusEvent.FOCUS_GAINED);
+		for (FocusListener listener : listeners) {
+			listener.focusGained(event);
+		}
+	}
+
+	@Override
+	public void focusLost(FocusEvent arg0) {
+		FocusEvent event = new FocusEvent(this, FocusEvent.FOCUS_LOST);
+		for (FocusListener listener : listeners) {
+			listener.focusLost(event);			
+		}
+	}
+	
+	public void addFocusListener(FocusListener listener){
+		listeners.add(listener);
 	}
 }

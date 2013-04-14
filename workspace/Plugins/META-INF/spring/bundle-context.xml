@@ -7,7 +7,22 @@
 	<bean id="createFilePlugin" class="cz.zcu.kiv.kc.plugin.create.CreateFilePlugin">
 		<property name="eventAdmin" ref="eventAdmin" />
 	</bean>
+	<bean id="createDirPlugin" class="cz.zcu.kiv.kc.plugin.createDir.CreateDirPlugin">
+		<property name="eventAdmin" ref="eventAdmin" />
+	</bean>
 	<bean id="deleteFilePlugin" class="cz.zcu.kiv.kc.plugin.delete.DeleteFilePlugin">
+		<property name="eventAdmin" ref="eventAdmin" />
+	</bean>
+	<bean id="moveFilePlugin" class="cz.zcu.kiv.kc.plugin.move.MoveFilePlugin">
+		<property name="eventAdmin" ref="eventAdmin" />
+	</bean>
+	<bean id="showFilePlugin" class="cz.zcu.kiv.kc.plugin.show.ShowFilePlugin">
+		<property name="eventAdmin" ref="eventAdmin" />
+	</bean>
+	<bean id="unzipFilePlugin" class="cz.zcu.kiv.kc.plugin.unzip.UnzipFilePlugin">
+		<property name="eventAdmin" ref="eventAdmin" />
+	</bean>
+	<bean id="zipFilePlugin" class="cz.zcu.kiv.kc.plugin.zip.ZipFilePlugin">
 		<property name="eventAdmin" ref="eventAdmin" />
 	</bean>
 

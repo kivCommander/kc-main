@@ -1,27 +1,23 @@
-package cz.zcu.kiv.kc.plugin.delete;
+package cz.zcu.kiv.kc.plugin.createDir;
 
 import java.io.File;
 import java.util.List;
 
 import cz.zcu.kiv.kc.plugin.AbstractPlugin;
 
-public class DeleteFilePlugin extends AbstractPlugin {
+public class CreateDirPlugin extends AbstractPlugin{
 
 	@Override
 	public void executeAction(List<File> selectedFiles, String destinationPath,
 			String sourcePath) {
-		for (File file : selectedFiles) {
-			// TODO handle not empty dir
-			if (file != null) {
-				file.delete();
-				sendEvent(sourcePath);
-			}
-		}
+		new File(sourcePath + File.separator + System.nanoTime()).mkdir();
+		sendEvent(sourcePath);
+		
 	}
 
 	@Override
 	public String getName() {
-		return "Delete";
+		return "New directory";
 	}
 
 }

@@ -17,7 +17,7 @@ public class FileListModel extends AbstractListModel<File> {
 
 	@Override
 	public File getElementAt(int arg0) {
-		return files[arg0];
+		return arg0 >=files.length? null: files[arg0];
 	}
 
 	@Override
@@ -70,6 +70,12 @@ public class FileListModel extends AbstractListModel<File> {
 		for (ListDataListener listener : listenerList
 				.getListeners(ListDataListener.class)) {
 			listener.contentsChanged(event);
+		}
+		ListDataEvent event2 = new ListDataEvent(this,
+				ListDataEvent.INTERVAL_REMOVED, 0, files.length);
+		for (ListDataListener listener : listenerList
+				.getListeners(ListDataListener.class)) {
+			listener.contentsChanged(event2);
 		}
 	}
 

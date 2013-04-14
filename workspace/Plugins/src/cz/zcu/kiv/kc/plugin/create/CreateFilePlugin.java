@@ -12,8 +12,8 @@ public class CreateFilePlugin extends AbstractPlugin  {
 	public void executeAction(List<File> selectedFiles, String destinationPath,
 			String sourcePath) {
 		try {
-			new File(destinationPath + File.separator + System.nanoTime()).createNewFile();
-			sendEvent(destinationPath);
+			new File(sourcePath + File.separator + System.nanoTime()).createNewFile();
+			sendEvent(sourcePath);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

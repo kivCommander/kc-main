@@ -25,7 +25,7 @@ public class PluginButtonListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		plugin.executeAction(controller.getSelectedFiles(), controller.getDestiantionPath(), null);		
+		plugin.executeAction(controller.getSelectedFiles(), controller.getDestiantionPath(), controller.getSourcePath());		
 	}
 
 }
