@@ -79,9 +79,39 @@ public class ShowFilePlugin extends AbstractPlugin {
 			try { is.close(); } catch (IOException e) { }
 		}
 		
-		int width = this.mainWindow.getWidth() - (this.mainWindow.getInsets().left + this.mainWindow.getInsets().right);
-		image = image.getScaledInstance(width, -1, java.awt.Image.SCALE_SMOOTH);
+		image = this.rescaleToWindow(image);
 		new ViewerDialog(this.mainWindow, ModalityType.MODELESS, new JLabel(new ImageIcon(image)));		
+	}
+
+	private Image rescaleToWindow(Image image)
+	{
+		int imgWidth = image.getWidth(null);
+		int imgHeight = image.getHeight(null);
+		
+		int winWidth = this.mainWindow.getWidth() - (this.mainWindow.getInsets().left + this.mainWindow.getInsets().right);
+		int winHeight = this.mainWindow.getHeight() - (this.mainWindow.getInsets().top + this.mainWindow.getInsets().bottom);
+		
+		// limit img dimensions by dimensions of main windows
+		if (imgWidth > winWidth)
+		{
+			imgWidth = winWidth;
+		}
+		if (imgHeight > winHeight)
+		{
+			imgHeight = winHeight;
+		}
+		
+		// release one dimension by img's orientation
+		if (imgWidth > imgHeight)
+		{
+			imgWidth = -1;
+		}
+		else
+		{
+			imgHeight = -1;
+		}
+		image = image.getScaledInstance(imgWidth, imgHeight, java.awt.Image.SCALE_SMOOTH);
+		return image;
 	}
 
 	@Override
