@@ -49,7 +49,6 @@ Import-Package: org.apache.commons.logging;version="[1.0,2.0)",
  org.springframework.osgi.context;version="[1.2.1,1.2.1]",
  org.springframework.osgi.context.event;version="[1.2.1,1.2.1]",
  org.springframework.osgi.context.support;version="[1.2.1,1.2.1]",
- org.springframework.osgi.extensions.annotation;version="[1.2.1,1.2.1]";resolution:=optional,
  org.springframework.osgi.service.importer;version="[1.2.1,1.2.1]",
  org.springframework.osgi.service.importer.event;version="[1.2.1,1.2.1]",
  org.springframework.osgi.service.importer.support;version="[1.2.1,1.2.1]",
@@ -60,3 +59,4 @@ Import-Package: org.apache.commons.logging;version="[1.0,2.0)",
 Build-Jdk: 1.5.0_22
 Unversioned-Imports: *
 Bundle-DocURL: http://www.springframework.org/osgi
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
