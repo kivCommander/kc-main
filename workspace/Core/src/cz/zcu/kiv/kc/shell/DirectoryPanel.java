@@ -2,6 +2,9 @@ package cz.zcu.kiv.kc.shell;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -12,8 +15,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.ComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -31,30 +36,95 @@ public class DirectoryPanel extends JPanel implements ActionListener,
 
 	private FileListModel listModel = new FileListModel();
 	private JList<File> list = new JList<File>(listModel);
-	private String currentFolder = new File("\\").getAbsolutePath();
+	private String currentFolder = new File("/").getAbsolutePath();
 	private JTextField field = new JTextField(currentFolder);
 
+	private JComboBox<File> mountpoints = new JComboBox<File>(new MountpointsModel());
+	
 	private static final int REFRESH_DELAY = 10000; // TODO
 
+	public void changeDir()
+	{
+		listModel.setDirPath(this.currentFolder);
+		list.setSelectedIndex(0);
+	}
+	
 	public DirectoryPanel() {
 		Timer timer = new Timer(REFRESH_DELAY, this);
 		timer.start();
 		setLayout(new BorderLayout());
+		
+		JPanel topPanel = new JPanel(new GridBagLayout());
+		GridBagConstraints gbc = new GridBagConstraints(
+			0, 0,
+			1, 1,
+			0, 0,
+			GridBagConstraints.CENTER,
+			GridBagConstraints.HORIZONTAL,
+			new Insets(2, 1, 2, 1),
+			5, 5
+		);
+				
 		JButton go = new JButton("GO");
 		go.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				currentFolder = field.getText();
-				listModel.setDirPath(field.getText());
-				list.setSelectedIndex(0);
+				if (!new File(field.getText()).isDirectory())
+				{
+					field.setText(DirectoryPanel.this.currentFolder);
+					return;
+				}
+				
+				String newPath = new File(field.getText()).getAbsolutePath();
+				ComboBoxModel<File> model = DirectoryPanel.this.mountpoints.getModel();
+				int i;
+				for (i = 0; i < model.getSize(); i++)
+				{
+					String root = ((File)model.getElementAt(i)).getAbsolutePath().toLowerCase();
+					if (newPath.startsWith(root)) {
+						break;
+					}
+				}
+				if (i >= model.getSize())
+				{
+					return;
+				}
+				DirectoryPanel.this.currentFolder = newPath;
+				model.setSelectedItem(((File)model.getElementAt(i)));
+				DirectoryPanel.this.changeDir();
 			}
 		});
-		JPanel menu = new JPanel(new BorderLayout());
+		
+		this.mountpoints.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String currentPath = DirectoryPanel.this.currentFolder.toLowerCase();
+				String newRoot = ((File)DirectoryPanel.this.mountpoints.getSelectedItem()).getAbsolutePath().toLowerCase();
+				if (!currentPath.startsWith(newRoot))
+				{
+					DirectoryPanel.this.currentFolder = ((File)DirectoryPanel.this.mountpoints.getSelectedItem()).getAbsolutePath();
+					DirectoryPanel.this.field.setText(DirectoryPanel.this.currentFolder);
+					DirectoryPanel.this.changeDir();
+				}
+				
+			}
+		});
+		
+		gbc.weightx = 1;
+		topPanel.add(this.field, gbc);
+		gbc.weightx = 0; gbc.gridx++;
+		topPanel.add(go, gbc);
+		gbc.gridx++;
+		topPanel.add(this.mountpoints, gbc);
+		
+		/*JPanel menu = new JPanel(new BorderLayout());
 		menu.add(field, BorderLayout.CENTER);
 		menu.add(go, BorderLayout.LINE_END);
-		add(menu, BorderLayout.PAGE_START);
+		add(menu, BorderLayout.PAGE_START);*/
+		add(topPanel, BorderLayout.PAGE_START);
 		add(new JScrollPane(list), BorderLayout.CENTER);
-
+		
 		list.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent evt) {
 				@SuppressWarnings("unchecked")
@@ -76,17 +146,24 @@ public class DirectoryPanel extends JPanel implements ActionListener,
 
 			@Override
 			public Component getListCellRendererComponent(
-					@SuppressWarnings("rawtypes") JList list, Object value,
-					int index, boolean isSelected, boolean cellHasFocus) {
+					@SuppressWarnings("rawtypes") JList list,
+					Object value,
+					int index,
+					boolean isSelected,
+					boolean cellHasFocus)
+			{
 				JLabel jLabel = (JLabel) super.getListCellRendererComponent(
-						list, value, index, isSelected, cellHasFocus);
+						list,
+						value,
+						index,
+						isSelected,
+						cellHasFocus
+				);
 				if (value instanceof FirstFile) {
 					jLabel.setText("..");
 				} else {
-					jLabel.setIcon(FileSystemView.getFileSystemView()
-							.getSystemIcon((File) value));
-					jLabel.setText(value == null ? null : ((File) value)
-							.getName());
+					jLabel.setIcon(FileSystemView.getFileSystemView().getSystemIcon((File) value));
+					jLabel.setText(value == null ? null : ((File) value).getName());
 				}
 				return jLabel;
 			}
