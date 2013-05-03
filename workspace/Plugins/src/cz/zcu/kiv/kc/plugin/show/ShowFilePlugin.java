@@ -2,18 +2,12 @@ package cz.zcu.kiv.kc.plugin.show;
 
 import java.awt.Dialog.ModalityType;
 import java.awt.Image;
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.util.List;
 
-import javax.activation.MimetypesFileTypeMap;
 import javax.imageio.ImageIO;
 import javax.imageio.stream.FileImageInputStream;
 import javax.imageio.stream.ImageInputStream;
@@ -23,8 +17,6 @@ import javax.swing.JLabel;
 import cz.zcu.kiv.kc.plugin.AbstractPlugin;
 
 public class ShowFilePlugin extends AbstractPlugin {
-
-	private JLabel imageLabel;
 	
 	@Override
 	public void executeAction(
@@ -64,6 +56,10 @@ public class ShowFilePlugin extends AbstractPlugin {
 		}
 	}
 
+	/**
+	 * Open viewer's dialog window with image
+	 * @param fileToShow
+	 */
 	private void showImage(File fileToShow)
 	{
 		ImageInputStream is = null;
@@ -83,6 +79,11 @@ public class ShowFilePlugin extends AbstractPlugin {
 		new ViewerDialog(this.mainWindow, ModalityType.MODELESS, new JLabel(new ImageIcon(image)));		
 	}
 
+	/**
+	 * Creates new image instance rescaled to main window dimensions, keeps aspect ratio
+	 * @param image to scale
+	 * @return scaled image
+	 */
 	private Image rescaleToWindow(Image image)
 	{
 		int imgWidth = image.getWidth(null);
