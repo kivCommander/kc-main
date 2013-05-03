@@ -2,17 +2,21 @@ package cz.zcu.kiv.kc.plugin.show;
 
 import java.awt.Dialog.ModalityType;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.imageio.ImageIO;
-import javax.imageio.stream.FileImageInputStream;
-import javax.imageio.stream.ImageInputStream;
+import javax.imageio.ImageReader;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.plaf.OptionPaneUI;
+import javax.swing.text.html.Option;
 
 import cz.zcu.kiv.kc.plugin.AbstractPlugin;
 
@@ -26,21 +30,49 @@ public class ShowFilePlugin extends AbstractPlugin {
 	{
 		if (selectedFiles.isEmpty())
 		{
-			throw new IllegalArgumentException("Empty selected files list.");
+			JOptionPane.showMessageDialog(
+				this.mainWindow,
+				"No file selected.",
+				"Selection error.",
+				JOptionPane.ERROR_MESSAGE
+			);
+			return;
 		}
 		File fileToShow = selectedFiles.get(0);
 		if (!fileToShow.canRead())
 		{
-			throw new IllegalArgumentException("Can't read file.");
+			JOptionPane.showMessageDialog(
+				this.mainWindow,
+				"Unable to read file.",
+				"Read error.",
+				JOptionPane.ERROR_MESSAGE
+			);
+			return;
 		}
 		if (!fileToShow.isFile())
 		{
-			throw new IllegalArgumentException("Selected item is not file.");
+			JOptionPane.showMessageDialog(
+				this.mainWindow,
+				"Selected item is not file.",
+				"Selection error.",
+				JOptionPane.ERROR_MESSAGE
+			);
+			return;
 		}
 		
 		String fileType = null;
 		try { fileType = Files.probeContentType(fileToShow.toPath()); }
-		catch (InvalidPathException | IOException e) { }
+		catch (InvalidPathException | IOException e)
+		{
+			JOptionPane.showMessageDialog(
+				this.mainWindow,
+				"Unable to read file.",
+				"Read error.",
+				JOptionPane.ERROR_MESSAGE
+			);
+			return;
+		}
+		
 		System.out.println(fileType);
 		if (fileType != null && fileType.startsWith("image/"))
 		{
@@ -52,7 +84,13 @@ public class ShowFilePlugin extends AbstractPlugin {
 		}
 		else
 		{
-			throw new IllegalArgumentException("Unknow file format.");
+			JOptionPane.showMessageDialog(
+				this.mainWindow,
+				"Unsupported file format.",
+				"Read error.",
+				JOptionPane.ERROR_MESSAGE
+			);
+			return;
 		}
 	}
 
@@ -61,22 +99,33 @@ public class ShowFilePlugin extends AbstractPlugin {
 	 * @param fileToShow
 	 */
 	private void showImage(File fileToShow)
-	{
-		ImageInputStream is = null;
-		Image image = null;
-		try
+	{		
+		try 
 		{
-			is = new FileImageInputStream(fileToShow);
-			image = ImageIO.read(is);
+			Image image = ImageIO.read(fileToShow);
+			if (image == null)
+			{
+				JOptionPane.showMessageDialog(
+					this.mainWindow,
+					"Unable to read file format.",
+					"Format error.",
+					JOptionPane.ERROR_MESSAGE
+				);
+				return;
+			}
+			image = this.rescaleToWindow(image);
+			new ViewerDialog(this.mainWindow, ModalityType.MODELESS, new JLabel(new ImageIcon(image)));		
 		}
-		catch (IOException e) { throw new IllegalStateException("Unable to open selected file. (" + e.getMessage() + ")"); }
-		finally
+		catch (IOException e)
 		{
-			try { is.close(); } catch (IOException e) { }
+			JOptionPane.showMessageDialog(
+				this.mainWindow,
+				"Unable to read file.",
+				"Read error.",
+				JOptionPane.ERROR_MESSAGE
+			);
 		}
-		
-		image = this.rescaleToWindow(image);
-		new ViewerDialog(this.mainWindow, ModalityType.MODELESS, new JLabel(new ImageIcon(image)));		
+
 	}
 
 	/**
@@ -111,6 +160,7 @@ public class ShowFilePlugin extends AbstractPlugin {
 		{
 			imgHeight = -1;
 		}
+		
 		image = image.getScaledInstance(imgWidth, imgHeight, java.awt.Image.SCALE_SMOOTH);
 		return image;
 	}
