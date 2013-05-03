@@ -1,6 +1,7 @@
 package cz.zcu.kiv.kc.plugin.show;
 
 import java.awt.Dialog.ModalityType;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
@@ -107,9 +108,14 @@ public class ShowFilePlugin extends AbstractPlugin {
 			}
 			sb.deleteCharAt(sb.length()-1);
 			
+			int winWidth = this.mainWindow.getWidth() - (this.mainWindow.getInsets().left + this.mainWindow.getInsets().right);
+			int winHeight = this.mainWindow.getHeight() - (this.mainWindow.getInsets().top + this.mainWindow.getInsets().bottom);
+			
 			JTextPane tp = new JTextPane();
 			tp.setEditable(false);
+			tp.setPreferredSize(new Dimension(winWidth, winHeight));
 			tp.setText(sb.toString());
+			
 			new ViewerDialog(this.mainWindow, ModalityType.MODELESS, tp);
 		}
 		catch (IOException e)
