@@ -4,7 +4,7 @@ Bundle-Name: Test
 Bundle-SymbolicName: Plugins
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Require-Bundle: org.eclipse.osgi;bundle-version="3.8.2",
+Require-Bundle: org.eclipse.osgi;bundle-version="3.8.0",
  Common;bundle-version="1.0.0",
  org.springframework.context,
  org.eclipse.osgi.services;bundle-version="3.3.100"
