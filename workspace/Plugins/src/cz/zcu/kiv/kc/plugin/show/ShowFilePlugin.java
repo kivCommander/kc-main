@@ -2,21 +2,17 @@ package cz.zcu.kiv.kc.plugin.show;
 
 import java.awt.Dialog.ModalityType;
 import java.awt.Image;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
-import java.util.Iterator;
 import java.util.List;
-
 import javax.imageio.ImageIO;
-import javax.imageio.ImageReader;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.plaf.OptionPaneUI;
-import javax.swing.text.html.Option;
+import javax.swing.JTextPane;
 
 import cz.zcu.kiv.kc.plugin.AbstractPlugin;
 
@@ -80,7 +76,7 @@ public class ShowFilePlugin extends AbstractPlugin {
 		}
 		else if (fileType != null && fileType.startsWith("text/"))
 		{
-			// TODO show text files
+			this.showText(fileToShow);
 		}
 		else
 		{
@@ -91,6 +87,39 @@ public class ShowFilePlugin extends AbstractPlugin {
 				JOptionPane.ERROR_MESSAGE
 			);
 			return;
+		}
+	}
+
+	/**
+	 * Open viewer's dialog window with content of file.
+	 * @param fileToShow
+	 * @throws IOException 
+	 */
+	private void showText(File fileToShow)
+	{
+		try
+		{
+			StringBuilder sb = new StringBuilder();
+			for (String line : Files.readAllLines(fileToShow.toPath(), StandardCharsets.UTF_8))
+			{
+				sb.append(line);
+				sb.append("\n");
+			}
+			sb.deleteCharAt(sb.length()-1);
+			
+			JTextPane tp = new JTextPane();
+			tp.setEditable(false);
+			tp.setText(sb.toString());
+			new ViewerDialog(this.mainWindow, ModalityType.MODELESS, tp);
+		}
+		catch (IOException e)
+		{
+			JOptionPane.showMessageDialog(
+				this.mainWindow,
+				"Unable to read file.",
+				"Error",
+				JOptionPane.ERROR_MESSAGE
+			);
 		}
 	}
 
