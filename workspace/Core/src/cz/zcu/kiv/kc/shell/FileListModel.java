@@ -119,5 +119,4 @@ public class FileListModel extends AbstractListModel<File> {
 		this.dirPath = dirPath;
 		refresh();
 	}
-
 }
