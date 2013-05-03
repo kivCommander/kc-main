@@ -43,7 +43,8 @@ public class FileListModel extends AbstractListModel<File> {
 		{
 			return new FirstFile(this.parentDir.getAbsolutePath());
 		}
-		return arg0 >= files.length ? null: files[arg0];
+		
+		return arg0 > files.length ? null: files[arg0 - (this.parentDir != null ? 1 : 0)];
 	}
 
 	@Override
