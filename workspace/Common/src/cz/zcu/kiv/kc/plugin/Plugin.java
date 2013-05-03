@@ -1,5 +1,6 @@
 package cz.zcu.kiv.kc.plugin;
 
+import java.awt.Window;
 import java.io.File;
 import java.util.List;
 
@@ -10,4 +11,5 @@ import java.util.List;
 public interface Plugin {	
 	void executeAction(List<File> selectedFiles, String destinationPath, String sourcePath);
 	String getName();
+	void setMainWindow(Window win);
 }

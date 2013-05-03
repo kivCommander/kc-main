@@ -1,5 +1,6 @@
 package cz.zcu.kiv.kc.plugin;
 
+import java.awt.Window;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
@@ -10,8 +11,10 @@ import org.osgi.service.event.EventAdmin;
 
 public abstract class AbstractPlugin implements Plugin {
 
-	private EventAdmin eventAdmin;
+	protected EventAdmin eventAdmin;
 
+	protected Window mainWindow;
+	
 	protected void sendEvent(String dirToRefresh) {
 		HashMap<String, String> properties = new HashMap<String, String>();
 		properties.put("dir", dirToRefresh);
@@ -28,5 +31,11 @@ public abstract class AbstractPlugin implements Plugin {
 	
 	protected String getResource(String key){
 		return ResourceBundle.getBundle("bundle").getString(key);
+	}
+	
+	@Override
+	public void setMainWindow(Window win)
+	{
+		this.mainWindow = win;
 	}
 }

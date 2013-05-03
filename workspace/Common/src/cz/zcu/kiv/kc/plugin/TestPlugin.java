@@ -1,5 +1,6 @@
 package cz.zcu.kiv.kc.plugin;
 
+import java.awt.Window;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
@@ -18,6 +19,12 @@ public class TestPlugin implements Plugin {
 	@Override
 	public String getName() {
 		return "Test action";
+	}
+
+	@Override
+	public void setMainWindow(Window win) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

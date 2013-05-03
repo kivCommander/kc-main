@@ -25,7 +25,8 @@ public class Activator implements EventHandler {
 			@Override
 			public void run() {
 				shell.addPlugin(new TestPlugin());
-				for (Object plugin : plugins) {
+				for (Plugin plugin : plugins) {
+					plugin.setMainWindow(frame);
 					shell.addPlugin((Plugin) plugin);
 				}
 				frame.setPreferredSize(new Dimension(800, 600));
