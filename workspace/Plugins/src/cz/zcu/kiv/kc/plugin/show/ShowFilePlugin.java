@@ -58,8 +58,12 @@ public class ShowFilePlugin extends AbstractPlugin {
 		}
 		
 		String fileType = null;
-		try { fileType = Files.probeContentType(fileToShow.toPath()); }
-		catch (InvalidPathException | IOException e)
+		
+		try
+		{
+			fileType = FileTypeDetector.probeFile(fileToShow.toPath());
+		}
+		catch (IOException ignore)
 		{
 			JOptionPane.showMessageDialog(
 				this.mainWindow,
@@ -69,6 +73,18 @@ public class ShowFilePlugin extends AbstractPlugin {
 			);
 			return;
 		}
+		
+		/*try { fileType = Files.probeContentType(fileToShow.toPath()); }
+		catch (InvalidPathException | IOException e)
+		{
+			JOptionPane.showMessageDialog(
+				this.mainWindow,
+				"Unable to read file.",
+				"Read error.",
+				JOptionPane.ERROR_MESSAGE
+			);
+			return;
+		}*/
 		
 		System.out.println(fileType);
 		if (fileType != null && fileType.startsWith("image/"))
