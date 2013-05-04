@@ -16,6 +16,12 @@
 	<bean id="moveFilePlugin" class="cz.zcu.kiv.kc.plugin.move.MoveFilePlugin">
 		<property name="eventAdmin" ref="eventAdmin" />
 	</bean>
+	<bean id="showImagePlugin" class="cz.zcu.kiv.kc.plugin.showImage.ShowImagePlugin">
+		<property name="eventAdmin" ref="eventAdmin" />
+	</bean>
+	<bean id="showTextPlugin" class="cz.zcu.kiv.kc.plugin.showText.ShowTextPlugin">
+		<property name="eventAdmin" ref="eventAdmin" />
+	</bean>
 	<bean id="showFilePlugin" class="cz.zcu.kiv.kc.plugin.show.ShowFilePlugin">
 		<property name="eventAdmin" ref="eventAdmin" />
 	</bean>

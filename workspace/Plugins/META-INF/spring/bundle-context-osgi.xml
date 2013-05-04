@@ -12,6 +12,8 @@
 	<service ref="createDirPlugin" interface="cz.zcu.kiv.kc.plugin.Plugin" />
 	<service ref="deleteFilePlugin" interface="cz.zcu.kiv.kc.plugin.Plugin" />
 	<service ref="moveFilePlugin" interface="cz.zcu.kiv.kc.plugin.Plugin" />
+	<service ref="showImagePlugin" interface="cz.zcu.kiv.kc.plugin.Plugin" />
+	<service ref="showTextPlugin" interface="cz.zcu.kiv.kc.plugin.Plugin" />
 	<service ref="showFilePlugin" interface="cz.zcu.kiv.kc.plugin.Plugin" />
 	<service ref="unzipFilePlugin" interface="cz.zcu.kiv.kc.plugin.Plugin" />
 	<service ref="zipFilePlugin" interface="cz.zcu.kiv.kc.plugin.Plugin" />
