@@ -17,6 +17,7 @@ import java.util.List;
 
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -24,13 +25,14 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ListModel;
 import javax.swing.Timer;
 import javax.swing.filechooser.FileSystemView;
 
 public class DirectoryPanel extends JPanel implements ActionListener,
 		FocusListener {
 	private static final long serialVersionUID = 840871288858771069L;
-
+	
 	private boolean refreshInProgress = false;
 	private List<FocusListener> listeners = new ArrayList<FocusListener>(1);
 
@@ -181,9 +183,31 @@ public class DirectoryPanel extends JPanel implements ActionListener,
 			// previous refresh is in process, skip this round
 		} else {
 			refreshInProgress = true;
+			List<File> selectedValues = list.getSelectedValuesList();
 			listModel.refresh();
+			setSelectedValues(list, selectedValues);
 			refreshInProgress = false;
 		}
+	}
+	public void setSelectedValues(JList<File> list, List<File> values) {
+	    list.clearSelection();
+	    for (File value : values) {
+	        int index = getIndex(list.getModel(), value);
+	        if (index >=0) {
+	            list.addSelectionInterval(index, index);
+	        }
+	    }
+	}
+
+	public int getIndex(ListModel<File> model, Object value) {
+	    if (value == null) return -1;
+	    if (model instanceof DefaultListModel) {
+	        return ((DefaultListModel<File>) model).indexOf(value);
+	    }
+	    for (int i = 0; i < model.getSize(); i++) {
+	        if (value.equals(model.getElementAt(i))) return i;
+	    }
+	    return -1;
 	}
 
 	public String getCurrentFolder() {
