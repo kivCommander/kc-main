@@ -31,6 +31,7 @@ import javax.swing.filechooser.FileSystemView;
 
 public class DirectoryPanel extends JPanel implements ActionListener,
 		FocusListener {
+		
 	private static final long serialVersionUID = 840871288858771069L;
 	
 	private boolean refreshInProgress = false;
@@ -52,6 +53,8 @@ public class DirectoryPanel extends JPanel implements ActionListener,
 	}
 	
 	public DirectoryPanel() {
+		//this.list.setPrototypeCellValue(new File(DirectoryPanel.maxLength));
+		
 		Timer timer = new Timer(REFRESH_DELAY, this);
 		timer.start();
 		setLayout(new BorderLayout());
@@ -139,6 +142,9 @@ public class DirectoryPanel extends JPanel implements ActionListener,
 						listModel.setDirPath(field.getText());
 						list.setSelectedIndex(0);
 						currentFolder = field.getText();
+						// sets cell prototype to accelerate rendering
+						// of very long folders
+						list.setPrototypeCellValue(((FileListModel)list.getModel()).getLongestName());
 					}
 				}
 			}
@@ -167,10 +173,13 @@ public class DirectoryPanel extends JPanel implements ActionListener,
 					jLabel.setIcon(FileSystemView.getFileSystemView().getSystemIcon((File) value));
 					jLabel.setText(value == null ? null : ((File) value).getName());
 				}
+				
 				return jLabel;
+		
 			}
 		});
 		list.addFocusListener(this);
+		
 	}
 
 	@Override

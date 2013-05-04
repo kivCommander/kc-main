@@ -17,11 +17,21 @@ public class FileListModel extends AbstractListModel<File> {
 	private File[] files = new File[0];
 
 	private File parentDir = null;
+		
+	private File longestFile;
+	
+	private int maxLength = 0;
+	
+	public File getLongestName()
+	{
+		return this.longestFile;
+	}
 	
 	private Comparator<File> filenameComparator = new Comparator<File>() {
 		@Override
 		public int compare(File arg0, File arg1) {
 			int ret;
+						
 			if (arg0.isDirectory() && !arg1.isDirectory()) {
 				ret = -1;
 			} else if (!arg0.isDirectory() && arg1.isDirectory()) {
@@ -51,8 +61,9 @@ public class FileListModel extends AbstractListModel<File> {
 	public int getSize() {
 		return files.length + (this.parentDir != null ? 1 : 0);
 	}
-
+	
 	public void refresh() {
+		this.maxLength = 0;
 		int origFilesCount = this.files.length;
 		File dir = new File(dirPath);
 		this.parentDir = dir.getParentFile();
@@ -63,6 +74,15 @@ public class FileListModel extends AbstractListModel<File> {
 		}
 		
 		Arrays.sort(this.files, this.filenameComparator);
+
+		for (File arg0 : this.files)
+		{
+			if (maxLength < arg0.getName().length())
+			{
+				maxLength = arg0.getName().length();
+				longestFile = arg0;
+			}
+		}
 		
 		this.fireIntervalRemoved(this, 0, origFilesCount);
 		this.fireIntervalAdded(this, 0, this.files.length + (this.parentDir != null ? 1 : 0));
