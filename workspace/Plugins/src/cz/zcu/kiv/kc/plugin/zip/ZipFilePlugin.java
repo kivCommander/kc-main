@@ -107,11 +107,11 @@ public class ZipFilePlugin extends AbstractPlugin {
 					{
 		        		String newFolder = file.getName() + File.separatorChar;
 		        		zout.putNextEntry(new ZipEntry(newFolder));
-						ZipFilePlugin.addDirectory(zout, file, newFolder);
+						this.addDirectory(zout, file, newFolder);
 					}
 					else if (file.isFile())
 					{
-						ZipFilePlugin.addFile(zout, file, "");
+						this.addFile(zout, file, "");
 					}
 				}
 			}
@@ -135,7 +135,7 @@ public class ZipFilePlugin extends AbstractPlugin {
 		}
 	}
 	
-    private static void addDirectory(ZipOutputStream zout, File directory, String parentFolder) throws IOException
+    private void addDirectory(ZipOutputStream zout, File directory, String parentFolder) throws IOException
     {
         //get sub-folder/files list
         File[] files = directory.listFiles();
@@ -145,16 +145,16 @@ public class ZipFilePlugin extends AbstractPlugin {
         	{ // the file is directory, call the function recursively
         		String newFolder = parentFolder + file.getName() + File.separatorChar;
         		zout.putNextEntry(new ZipEntry(newFolder));
-        		ZipFilePlugin.addDirectory(zout, file, newFolder);
+        		this.addDirectory(zout, file, newFolder);
         	}
         	else if (file.isFile())
         	{ // file is file (:-)), just add it
-        		ZipFilePlugin.addFile(zout, file, parentFolder);
+        		this.addFile(zout, file, parentFolder);
         	}
         }
     }
     
-	private static void addFile(ZipOutputStream zout, File file, String folder) {
+	private void addFile(ZipOutputStream zout, File file, String folder) {
 		try (FileInputStream fin = new FileInputStream(file))
 		{
 		    //create byte buffer
@@ -183,7 +183,12 @@ public class ZipFilePlugin extends AbstractPlugin {
 		}
 		catch(IOException ioe)
 		{
-		    System.out.println("IOException :" + ioe);                             
+		    JOptionPane.showMessageDialog(
+		    	this.mainWindow,
+		    	"Neznámá vstupnì/výstupní chyba.",
+		    	"Error",
+		    	JOptionPane.ERROR_MESSAGE
+		    );           
 		}
 	}
 	
