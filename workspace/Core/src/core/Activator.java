@@ -12,7 +12,6 @@ import org.osgi.service.event.Event;
 import org.osgi.service.event.EventHandler;
 
 import cz.zcu.kiv.kc.plugin.Plugin;
-import cz.zcu.kiv.kc.plugin.TestPlugin;
 import cz.zcu.kiv.kc.shell.ShellController;
 
 public class Activator implements EventHandler {
@@ -24,7 +23,7 @@ public class Activator implements EventHandler {
 		SwingUtilities.invokeAndWait(new Runnable() {
 			@Override
 			public void run() {
-				shell.addPlugin(new TestPlugin());
+				//shell.addPlugin(new TestPlugin());
 				for (Plugin plugin : plugins) {
 					plugin.setMainWindow(frame);
 					shell.addPlugin((Plugin) plugin);
