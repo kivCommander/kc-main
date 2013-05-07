@@ -2,6 +2,7 @@ package cz.zcu.kiv.kc.plugin.unzip;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
@@ -18,7 +19,49 @@ public class UnzipFilePlugin extends AbstractPlugin {
 		for (File file : selectedFiles) {
 
 			byte[] buffer = new byte[1024];
-			try {
+			try (ZipInputStream zis = new ZipInputStream(new FileInputStream(file)))
+			{
+				ZipEntry entry;
+				while ((entry = zis.getNextEntry()) != null)
+				{
+					System.out.println(entry.getName() + " isDir: " + entry.isDirectory());
+					File newFile = new File(destinationPath + File.separator + entry.getName());
+					if (entry.isDirectory())
+					{ // entry is directory, create and continue with other entry
+						newFile.mkdirs();
+					}
+					else
+					{ // entry is file, create parent directories and write content
+						new File(newFile.getParent()).mkdirs();
+						try (FileOutputStream fos = new FileOutputStream(newFile))
+						{
+							int len;
+							while ((len = zis.read(buffer)) > 0)
+							{
+								fos.write(buffer, 0, len);
+							}
+						}
+						catch (FileNotFoundException ex)
+						{
+							System.out.println("chyba zapisu: " + ex.getMessage());
+						}
+					}
+					
+					// close zip entry
+					zis.closeEntry();
+				}
+			}
+			catch (FileNotFoundException ex)
+			{
+				System.out.println("chyba cteni");
+			}
+			catch (IOException ex)
+			{
+				System.out.println("Neznama vstupne/vystupni chyba.");
+			}
+			sendEvent(destinationPath);
+			
+			/*try {
 				// get the zip file content
 				ZipInputStream zis = new ZipInputStream(new FileInputStream(
 						file));
@@ -52,7 +95,7 @@ public class UnzipFilePlugin extends AbstractPlugin {
 
 			} catch (IOException ex) {
 				ex.printStackTrace();
-			}
+			}*/
 		}
 	}
 

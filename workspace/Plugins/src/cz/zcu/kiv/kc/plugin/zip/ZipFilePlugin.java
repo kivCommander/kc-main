@@ -105,7 +105,7 @@ public class ZipFilePlugin extends AbstractPlugin {
 				{
 					if (file.isDirectory())
 					{
-		        		String newFolder = file.getName() + File.separatorChar;
+		        		String newFolder = file.getName() + "/"; // '/' is defined in zip format
 		        		zout.putNextEntry(new ZipEntry(newFolder));
 						this.addDirectory(zout, file, newFolder);
 					}
@@ -143,7 +143,7 @@ public class ZipFilePlugin extends AbstractPlugin {
         {
         	if (file.isDirectory())
         	{ // the file is directory, call the function recursively
-        		String newFolder = parentFolder + file.getName() + File.separatorChar;
+        		String newFolder = parentFolder + file.getName() + "/"; // '/' is defined in zip format
         		zout.putNextEntry(new ZipEntry(newFolder));
         		this.addDirectory(zout, file, newFolder);
         	}
