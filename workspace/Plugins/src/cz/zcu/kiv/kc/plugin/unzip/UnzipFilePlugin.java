@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import javax.swing.JOptionPane;
+
 import cz.zcu.kiv.kc.plugin.AbstractPlugin;
 
 public class UnzipFilePlugin extends AbstractPlugin {
@@ -18,6 +20,22 @@ public class UnzipFilePlugin extends AbstractPlugin {
 			String sourcePath) {
 		for (File file : selectedFiles) {
 
+			destinationPath = JOptionPane.showInputDialog(
+				this.mainWindow,
+				"Zadejte cílový adresáø pro dekompresi.",
+				destinationPath
+				+ (destinationPath.endsWith(File.separator) ? "" : File.separator)
+				+ file.getName().substring(0, file.getName().lastIndexOf('.'))
+			);
+			if (destinationPath == null || destinationPath.trim().isEmpty())
+			{
+				JOptionPane.showMessageDialog(
+					this.mainWindow,
+					"Operace byla zrušen auživatelem."
+				);
+				return;
+			}
+			
 			byte[] buffer = new byte[1024];
 			try (ZipInputStream zis = new ZipInputStream(new FileInputStream(file)))
 			{
