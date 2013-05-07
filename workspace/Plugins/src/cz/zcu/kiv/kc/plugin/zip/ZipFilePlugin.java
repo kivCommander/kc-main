@@ -29,7 +29,6 @@ import cz.zcu.kiv.kc.plugin.AbstractPlugin;
 public class ZipFilePlugin extends AbstractPlugin implements PropertyChangeListener
 {
 
-
 	public ZipFilePlugin()
 	{
 		super();
