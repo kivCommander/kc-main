@@ -1,56 +1,298 @@
 package cz.zcu.kiv.kc.plugin.zip;
 
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.NotDirectoryException;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import javax.swing.BorderFactory;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.SwingWorker;
+import javax.swing.SwingWorker.StateValue;
 
 import cz.zcu.kiv.kc.plugin.AbstractPlugin;
 
-public class ZipFilePlugin extends AbstractPlugin {
+public class ZipFilePlugin extends AbstractPlugin implements PropertyChangeListener
+{
 
-	@Override
-	public void executeAction(List<File> selectedFiles, String destinationPath,
-			String sourcePath) {
-		exec(selectedFiles, destinationPath, sourcePath);
-		return;
-		/*try {
-			ZipOutputStream out = new ZipOutputStream(new FileOutputStream(
-					destinationPath + File.separator + askForName("Zip fiile name:")
-							+ ".zip"));
-			for (File file : selectedFiles) {
-				FileInputStream in = new FileInputStream(file);
-				// out put file
-				// name the file inside the zip file
-				out.putNextEntry(new ZipEntry(file.getName()));
+	private class CompressionTask extends SwingWorker<Void, Void>
+	{	
+		private List<File> selectedFiles;
+		private File destinationFile;
+		protected int filesCount = 0, filesProcessed = 0;
+		
+		private CompressionTask(
+			List<File> selectedFiles,
+			File destinationFile
+		)
+		{
+			this.selectedFiles = selectedFiles;
+			this.destinationFile = destinationFile;	
+			this.filesCount = selectedFiles.size();
+		}
+		
+		@Override
+		protected Void doInBackground() throws Exception
+		{
+			this.exec(
+				this.selectedFiles,
+				this.destinationFile
+			);
+			return null;
+		}
+		
+		protected void exec(
+				List<File> selectedFiles,
+				File destinationFile)
+		{
 
-				byte[] b = new byte[1024];
+			
+			this.filesCount = this.countFiles(selectedFiles);
 
-				int count;
-
-				while ((count = in.read(b)) > 0) {
-					out.write(b, 0, count);
+			try (FileOutputStream fout = new FileOutputStream(destinationFile))
+			{
+				try (ZipOutputStream zout = new ZipOutputStream(fout))
+				{
+					for (File file : selectedFiles)
+					{
+						if (file.isDirectory())
+						{
+			        		String newFolder = file.getName() + "/"; // '/' is defined in zip format
+			        		zout.putNextEntry(new ZipEntry(newFolder));
+							this.addDirectory(zout, file, newFolder);
+						}
+						else if (file.isFile())
+						{
+							this.addFile(zout, file, "");
+						}
+					}
 				}
-				in.close();
 			}
-			out.close();
-			sendEvent(destinationPath);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
+			catch (FileNotFoundException e)
+			{
+				JOptionPane.showMessageDialog(
+					ZipFilePlugin.this.mainWindow,
+					"Nepodaøilo se vytvoøit výstupní soubor.",
+					"Chyba výstupního souboru.",
+					JOptionPane.ERROR_MESSAGE
+				);
+			} catch (IOException e)
+			{
+				JOptionPane.showMessageDialog(
+					ZipFilePlugin.this.mainWindow,
+					"Neznámá vstupnì/výstupní chyba.\n" + e.getMessage(),
+					"Chyba vstupu/výstupu.",
+					JOptionPane.ERROR_MESSAGE
+				);
+			}
+			this.firePropertyChange("done", false, true);
+		}
+		
+		private int countFiles(List<File> selectedFiles2)
+		{
+			int ret = 0;
+			
+			for (File file : selectedFiles2)
+			{
+				if (file.isFile())
+				{
+					ret++;
+				}
+				else if (file.isDirectory())
+				{
+					try
+					{
+						ret += 1 + this.countFiles(file);
+					}
+					catch (NotDirectoryException ignore) {};
+				}
+			}
+			
+			return ret;
+		}
+		
+		private int countFiles(File directory) throws NotDirectoryException
+		{
+			int ret = 0;
+			
+			if (directory.isDirectory())
+			{
+				File[] content = directory.listFiles();
+				
+				for (File item : content)
+				{
+					if (item.isFile())
+					{
+						ret++;
+					}
+					else if (item.isDirectory())
+					{
+						ret += 1 + this.countFiles(item);
+					}
+				}
+			}
+			else  throw new NotDirectoryException(directory.toString());
+			
+			return ret;
+		}
+
+		protected void addDirectory(ZipOutputStream zout, File directory, String parentFolder) throws IOException
+		{
+		    //get sub-folder/files list
+		    File[] files = directory.listFiles();
+		    //System.out.println((int) (((float) 1+this.filesProcessed) / this.filesCount * 100));
+			this.setProgress((int) (((float) ++this.filesProcessed) / this.filesCount * 100));
+		    for (File file : files)
+		    {
+		    	if (file.isDirectory())
+		    	{ // the file is directory, call the function recursively
+		    		String newFolder = parentFolder + file.getName() + "/"; // '/' is defined in zip format
+		    		zout.putNextEntry(new ZipEntry(newFolder));
+		    		this.addDirectory(zout, file, newFolder);
+		    	}
+		    	else if (file.isFile())
+		    	{ // file is file (:-)), just add it
+		    		this.addFile(zout, file, parentFolder);
+		    	}
+		    }
+		}
+		
+		protected void addFile(ZipOutputStream zout, File file, String folder) {
+			try (FileInputStream fin = new FileInputStream(file))
+			{
+			    //create byte buffer
+			    byte[] buffer = new byte[1024];
+			   
+			    zout.putNextEntry(new ZipEntry(folder + file.getName()));
+			
+			    /*
+			     * After creating entry in the zip file, actually
+			     * write the file.
+			     */
+			    int length;
+			    while((length = fin.read(buffer)) > 0)
+			    {
+			       zout.write(buffer, 0, length);
+			    }
+			
+			    /*
+			     * After writing the file to ZipOutputStream, use
+			     *
+			     * void closeEntry() method of ZipOutputStream class to
+			     * close the current entry and position the stream to
+			     * write the next entry.
+			     */
+			     zout.closeEntry();
+			     
+			     //System.out.print("file adding: " + file + " ... ");
+			     
+			     //this.filesProcessed++;
+			     //this.setProgress(this.filesProcessed);
+			     //System.out.print(" progres set ");
+			     
+			     //System.out.println("done");
+			}
+			catch(IOException ioe)
+			{
+			    JOptionPane.showMessageDialog(
+			    	ZipFilePlugin.this.mainWindow,
+			    	"Neznámá vstupnì/výstupní chyba.",
+			    	"Error",
+			    	JOptionPane.ERROR_MESSAGE
+			    );           
+			}
+			finally
+			{
+				this.setProgress((int) (((float) ++this.filesProcessed) / this.filesCount * 100));
+		    	this.firePropertyChange("file", null, file);
+			}
+		}
+	};
+	
+	private CompressionTask worker;
+	
+	JDialog progressDialog = new JDialog(this.mainWindow);
+	JProgressBar pb = new JProgressBar();
+	JLabel jl = new JLabel("Status: ");
+	
+	String destinationPath;
+	
+	@Override
+	public void executeAction(
+		final List<File> selectedFiles,
+		final String destinationPath,
+		final String sourcePath)
+	{
+		File outputFile = this.getDestinationFile(destinationPath, sourcePath);
+		if (outputFile == null) return;
+		
+		this.destinationPath = destinationPath;
+		
+		this.jl.setPreferredSize(new Dimension(480, -1));
+		this.pb.setStringPainted(true);
+
+		JPanel panel = new JPanel(new GridLayout(2, 1));
+		panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		panel.add(this.jl);
+		panel.add(this.pb);
+
+		this.progressDialog.add(panel);
+		this.progressDialog.pack();
+		this.progressDialog.setVisible(true);
+		this.progressDialog.setResizable(false);
+		
+		this.worker = new CompressionTask(selectedFiles, outputFile);
+		this.worker.addPropertyChangeListener(this);
+		this.worker.execute();
+	}
+	
+	@Override
+	public String getName() {
+		return "Zip";
 	}
 
-	public void exec(
-		List<File> selectedFiles,
-		String destinationPath,
-		String sourcePath)
+	@Override
+	public void propertyChange(PropertyChangeEvent evt)
+	{
+		if (evt.getPropertyName() == "state" && evt.getNewValue() == StateValue.STARTED)
+		{
+			this.pb.setValue(0);
+		}
+		if (evt.getPropertyName() == "file")
+		{
+			this.jl.setText(evt.getNewValue().toString() + " added");
+		}
+		if (evt.getPropertyName() == "progress")
+		{
+			this.pb.setValue((int) evt.getNewValue());
+		}
+		if (evt.getPropertyName() == "done")
+		{
+			this.sendEvent(this.destinationPath);			
+			JOptionPane.showMessageDialog(
+				this.mainWindow,
+				"Operace byla dokonèena.",
+				"Dokonèeno.",
+				JOptionPane.INFORMATION_MESSAGE
+			);
+			this.progressDialog.dispose();
+		}
+	}
+
+	private File getDestinationFile(String destinationPath, String sourcePath)
 	{
 		// create hint for destination filename
 		String destinationFileNameHint = destinationPath
@@ -63,6 +305,7 @@ public class ZipFilePlugin extends AbstractPlugin {
 			"Zadej jméno výstupního souboru",
 			destinationFileNameHint
 		);
+		
 		if (destinationFileName == null)
 		{ // operation canceled
 			JOptionPane.showMessageDialog(
@@ -71,7 +314,7 @@ public class ZipFilePlugin extends AbstractPlugin {
 				"Operace zrušena.",
 				JOptionPane.INFORMATION_MESSAGE
 			);
-			return;
+			return null;
 		}
 		if (destinationFileName.isEmpty())
 		{ // empty name given
@@ -79,12 +322,13 @@ public class ZipFilePlugin extends AbstractPlugin {
 				this.mainWindow,
 				"Nesprávné zadání. Operace byla zrušena.",
 				"Operace zrušena.",
-				JOptionPane.INFORMATION_MESSAGE
+				JOptionPane.ERROR_MESSAGE
 			);
-			return;
+			return null;
 		}
-		File destinationFile = new File(destinationFileName);
-		if (destinationFile.canRead())
+		
+		File ret = new File(destinationFileName);
+		if (ret.exists())
 		{
 			int res = JOptionPane.showConfirmDialog(
 				this.mainWindow,
@@ -94,107 +338,11 @@ public class ZipFilePlugin extends AbstractPlugin {
 			);
 			if (res == JOptionPane.NO_OPTION)
 			{
-				return;
+				return null;
 			}
 		}
-		try (FileOutputStream fout = new FileOutputStream(destinationFile))
-		{
-			try (ZipOutputStream zout = new ZipOutputStream(fout))
-			{
-				for (File file : selectedFiles)
-				{
-					if (file.isDirectory())
-					{
-		        		String newFolder = file.getName() + "/"; // '/' is defined in zip format
-		        		zout.putNextEntry(new ZipEntry(newFolder));
-						this.addDirectory(zout, file, newFolder);
-					}
-					else if (file.isFile())
-					{
-						this.addFile(zout, file, "");
-					}
-				}
-			}
-		}
-		catch (FileNotFoundException e)
-		{
-			JOptionPane.showMessageDialog(
-				this.mainWindow,
-				"Nepodaøilo se vytvoøit výstupní soubor.",
-				"Chyba výstupního souboru.",
-				JOptionPane.ERROR_MESSAGE
-			);
-		} catch (IOException e)
-		{
-			JOptionPane.showMessageDialog(
-				this.mainWindow,
-				"Neznámá vstupnì/výstupní chyba.\n" + e.getMessage(),
-				"Chyba vstupu/výstupu.",
-				JOptionPane.ERROR_MESSAGE
-			);
-		}
+		
+		return ret;
 	}
 	
-    private void addDirectory(ZipOutputStream zout, File directory, String parentFolder) throws IOException
-    {
-        //get sub-folder/files list
-        File[] files = directory.listFiles();
-        for (File file : files)
-        {
-        	if (file.isDirectory())
-        	{ // the file is directory, call the function recursively
-        		String newFolder = parentFolder + file.getName() + "/"; // '/' is defined in zip format
-        		zout.putNextEntry(new ZipEntry(newFolder));
-        		this.addDirectory(zout, file, newFolder);
-        	}
-        	else if (file.isFile())
-        	{ // file is file (:-)), just add it
-        		this.addFile(zout, file, parentFolder);
-        	}
-        }
-    }
-    
-	private void addFile(ZipOutputStream zout, File file, String folder) {
-		try (FileInputStream fin = new FileInputStream(file))
-		{
-		    //create byte buffer
-		    byte[] buffer = new byte[1024];
-		   
-		    zout.putNextEntry(new ZipEntry(folder + file.getName()));
-		
-		    /*
-		     * After creating entry in the zip file, actually
-		     * write the file.
-		     */
-		    int length;
-		    while((length = fin.read(buffer)) > 0)
-		    {
-		       zout.write(buffer, 0, length);
-		    }
-		
-		    /*
-		     * After writing the file to ZipOutputStream, use
-		     *
-		     * void closeEntry() method of ZipOutputStream class to
-		     * close the current entry and position the stream to
-		     * write the next entry.
-		     */
-		     zout.closeEntry();
-		}
-		catch(IOException ioe)
-		{
-		    JOptionPane.showMessageDialog(
-		    	this.mainWindow,
-		    	"Neznámá vstupnì/výstupní chyba.",
-		    	"Error",
-		    	JOptionPane.ERROR_MESSAGE
-		    );           
-		}
-	}
-	
-	@Override
-	public String getName() {
-		return "Zip";
-	}
-
 }
