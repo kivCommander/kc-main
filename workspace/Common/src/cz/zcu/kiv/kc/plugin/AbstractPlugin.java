@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
-
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventAdmin;
 
@@ -14,7 +13,7 @@ public abstract class AbstractPlugin implements Plugin {
 	protected EventAdmin eventAdmin;
 
 	protected Window mainWindow;
-	
+		
 	protected void sendEvent(String dirToRefresh) {
 		HashMap<String, String> properties = new HashMap<String, String>();
 		properties.put("dir", dirToRefresh);

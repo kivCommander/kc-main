@@ -10,11 +10,18 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 
 import cz.zcu.kiv.kc.plugin.AbstractPlugin;
 
 public class UnzipFilePlugin extends AbstractPlugin {
 
+	public UnzipFilePlugin()
+	{
+		super();
+		UIManager.put("ClassLoader", getClass().getClassLoader());
+	}
+	
 	@Override
 	public void executeAction(List<File> selectedFiles, String destinationPath,
 			String sourcePath) {

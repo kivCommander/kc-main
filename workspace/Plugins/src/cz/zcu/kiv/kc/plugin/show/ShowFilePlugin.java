@@ -14,10 +14,17 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
+import javax.swing.UIManager;
 
 import cz.zcu.kiv.kc.plugin.AbstractPlugin;
 
 public class ShowFilePlugin extends AbstractPlugin {
+
+	public ShowFilePlugin()
+	{
+		super();
+		UIManager.put("ClassLoader", getClass().getClassLoader());
+	}
 	
 	@Override
 	public void executeAction(

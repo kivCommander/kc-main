@@ -21,6 +21,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.SwingWorker;
+import javax.swing.UIManager;
 import javax.swing.SwingWorker.StateValue;
 
 import cz.zcu.kiv.kc.plugin.AbstractPlugin;
@@ -28,6 +29,13 @@ import cz.zcu.kiv.kc.plugin.AbstractPlugin;
 public class ZipFilePlugin extends AbstractPlugin implements PropertyChangeListener
 {
 
+
+	public ZipFilePlugin()
+	{
+		super();
+		UIManager.put("ClassLoader", getClass().getClassLoader());
+	}
+	
 	private class CompressionTask extends SwingWorker<Void, Void>
 	{	
 		private List<File> selectedFiles;

@@ -4,11 +4,17 @@ import java.io.File;
 import java.util.List;
 
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 
 import cz.zcu.kiv.kc.plugin.AbstractPlugin;
 
 public class CreateDirPlugin extends AbstractPlugin{
 
+	public CreateDirPlugin()
+	{
+		super();
+		UIManager.put("ClassLoader", getClass().getClassLoader());
+	}
 	@Override
 	public void executeAction(List<File> selectedFiles, String destinationPath,
 			String sourcePath) {

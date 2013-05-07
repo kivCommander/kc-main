@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.service.event.Event;
@@ -18,8 +19,10 @@ public class Activator implements EventHandler {
 	private final ShellController shell = new ShellController();
 	private final JFrame frame = new JFrame("kivCommander");
 	private Set<Plugin> plugins;
-
+	
 	public void start() throws Exception {
+		UIManager.put("ClassLoader", getClass().getClassLoader());
+		
 		SwingUtilities.invokeAndWait(new Runnable() {
 			@Override
 			public void run() {
