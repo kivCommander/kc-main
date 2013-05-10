@@ -5,6 +5,8 @@ package cz.zcu.kiv.kc.shell;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.List;
 
 import cz.zcu.kiv.kc.plugin.Plugin;
 
@@ -25,7 +27,13 @@ public class PluginButtonListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		plugin.executeAction(controller.getSelectedFiles(), controller.getDestiantionPath(), controller.getSourcePath());		
+		List<File> selectedFiles = controller.getSelectedFiles();
+		if (selectedFiles.get(0) instanceof FirstFile)
+		{
+			selectedFiles = selectedFiles.subList(1, selectedFiles.size());
+		}
+		
+		plugin.executeAction(selectedFiles, controller.getDestiantionPath(), controller.getSourcePath());		
 	}
 
 }
