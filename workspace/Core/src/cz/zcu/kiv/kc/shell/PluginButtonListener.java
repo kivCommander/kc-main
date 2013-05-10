@@ -28,7 +28,7 @@ public class PluginButtonListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		List<File> selectedFiles = controller.getSelectedFiles();
-		if (selectedFiles.get(0) instanceof FirstFile)
+		if (selectedFiles.size() > 0 && selectedFiles.get(0) instanceof FirstFile)
 		{
 			selectedFiles = selectedFiles.subList(1, selectedFiles.size());
 		}
