@@ -243,7 +243,18 @@ public class ZipFilePlugin extends AbstractPlugin implements PropertyChangeListe
 		final String destinationPath,
 		final String sourcePath)
 	{
-		File outputFile = this.getDestinationFile(destinationPath, sourcePath);
+		if (selectedFiles.size() == 0)
+		{
+			JOptionPane.showMessageDialog(
+				this.mainWindow,
+				"Nebyly vybrány žádné soubory.",
+				"Žádné soubory",
+				JOptionPane.ERROR_MESSAGE
+			);
+			return;
+		}
+		
+		File outputFile = this.getDestinationFile(selectedFiles, destinationPath, sourcePath);
 		if (outputFile == null) return;
 		
 		this.destinationPath = destinationPath;
@@ -299,12 +310,20 @@ public class ZipFilePlugin extends AbstractPlugin implements PropertyChangeListe
 		}
 	}
 
-	private File getDestinationFile(String destinationPath, String sourcePath)
+	private File getDestinationFile(List<File> selectedFiles, String destinationPath, String sourcePath)
 	{
+		// in case when source path is root, use name of the first selected file
+		// no need for checking size od the list, because it is checked in execution 
+		String fileName = new File(sourcePath).getName();
+		if (fileName.isEmpty())
+		{
+			fileName = selectedFiles.get(0).getName(); 
+		}
+		
 		// create hint for destination filename
 		String destinationFileNameHint = destinationPath
-			+ (!new File(sourcePath).getName().trim().isEmpty() ? File.separatorChar : "")
-			+ new File(sourcePath).getName()
+			+ (!destinationPath.endsWith(File.separator) ? File.separator : "")
+			+ fileName
 			+ ".zip";
 		// ask for actual destination filename
 		String destinationFileName = JOptionPane.showInputDialog(
