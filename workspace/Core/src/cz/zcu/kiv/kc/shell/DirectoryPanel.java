@@ -82,7 +82,8 @@ public class DirectoryPanel extends JPanel implements ActionListener,
 					return;
 				}
 				
-				String newPath = new File(field.getText()).getAbsolutePath();
+				String newPath = new File(field.getText()).getAbsolutePath().toLowerCase();
+
 				ComboBoxModel<File> model = DirectoryPanel.this.mountpoints.getModel();
 				int i;
 				for (i = 0; i < model.getSize(); i++)
