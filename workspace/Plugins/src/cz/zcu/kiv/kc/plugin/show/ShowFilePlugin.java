@@ -16,9 +16,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
 import javax.swing.UIManager;
 
+import cz.zcu.kiv.kc.interfaces.IViewPlugin;
 import cz.zcu.kiv.kc.plugin.AbstractPlugin;
 
-public class ShowFilePlugin extends AbstractPlugin {
+public class ShowFilePlugin extends AbstractPlugin implements IViewPlugin {
 
 	public ShowFilePlugin()
 	{

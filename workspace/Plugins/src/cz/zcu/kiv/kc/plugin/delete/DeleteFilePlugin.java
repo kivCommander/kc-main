@@ -6,9 +6,10 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
+import cz.zcu.kiv.kc.interfaces.IDeletePlugin;
 import cz.zcu.kiv.kc.plugin.AbstractPlugin;
 
-public class DeleteFilePlugin extends AbstractPlugin {
+public class DeleteFilePlugin extends AbstractPlugin implements IDeletePlugin {
 
 	public DeleteFilePlugin()
 	{

@@ -6,9 +6,10 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
+import cz.zcu.kiv.kc.interfaces.ICreateDirPlugin;
 import cz.zcu.kiv.kc.plugin.AbstractPlugin;
 
-public class CreateDirPlugin extends AbstractPlugin{
+public class CreateDirPlugin extends AbstractPlugin implements ICreateDirPlugin {
 
 	public CreateDirPlugin()
 	{
