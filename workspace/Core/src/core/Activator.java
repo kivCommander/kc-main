@@ -2,11 +2,9 @@ package core;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.MenuBar;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.security.KeyStore;
 import java.util.Set;
 
 import javax.swing.AbstractAction;
@@ -38,7 +36,7 @@ public class Activator implements EventHandler, BundleContextAware
 	private BundleContext context;
 
 	private final ShellController shell = new ShellController();
-	private Set<Plugin> plugins;
+	//private Set<Plugin> plugins;
 	private IViewPlugin viewPlugin;
 	private ICreateDirPlugin createDirPlugin;
 	private IDeletePlugin deletePlugin;
@@ -90,7 +88,7 @@ public class Activator implements EventHandler, BundleContextAware
 	{
 		this.menuBar.add(this.pluginsMenu);
 	}
-		
+	
 	public void start() throws Exception {
 		UIManager.put("ClassLoader", getClass().getClassLoader());
 	
@@ -120,7 +118,7 @@ public class Activator implements EventHandler, BundleContextAware
 	}
 
 	public void setPlugins(final Set<Plugin> plugins) {
-		this.plugins = plugins;
+		//this.plugins = plugins;
 		
 		for (Plugin plugin : plugins)
 		{
