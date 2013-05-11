@@ -307,6 +307,7 @@ public class ZipFilePlugin extends AbstractPlugin implements PropertyChangeListe
 				JOptionPane.INFORMATION_MESSAGE
 			);
 			this.progressDialog.dispose();
+			this.sendEvent(destinationPath);
 		}
 	}
 
