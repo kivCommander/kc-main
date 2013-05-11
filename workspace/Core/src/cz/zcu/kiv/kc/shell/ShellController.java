@@ -33,7 +33,7 @@ public class ShellController {
 
 	public void addPlugin(Plugin plugin) {
 		JButton button = new JButton();
-		button.setText(plugin.getName());
+		button.setText(I18N.getText(plugin.getName()));
 		button.addActionListener(new PluginButtonListener(plugin, this));
 		buttons.put(I18N.getText(plugin.getName()), button);
 		view.addButton(button);		
