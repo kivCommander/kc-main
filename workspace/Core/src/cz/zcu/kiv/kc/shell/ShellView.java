@@ -12,6 +12,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
+import cz.zcu.kiv.kc.plugin.I18N;
+
 public class ShellView extends JPanel implements FocusListener {
 
 	private static final long serialVersionUID = 3313986206312859936L;
@@ -23,17 +25,17 @@ public class ShellView extends JPanel implements FocusListener {
 	public ShellView() {
 		setLayout(new BorderLayout());
 		leftDirectoryView.setBorder(BorderFactory
-				.createTitledBorder("Left panel"));
+				.createTitledBorder(I18N.getText("leftPanel")));
 		leftDirectoryView.addFocusListener(this);
 		rightDirectoryView.setBorder(BorderFactory
-				.createTitledBorder("Right panel"));
+				.createTitledBorder(I18N.getText("rightPanel")));
 		rightDirectoryView.addFocusListener(this);
 		JSplitPane jSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
 				leftDirectoryView, rightDirectoryView);
 		jSplitPane.setOneTouchExpandable(true);
 		jSplitPane.setResizeWeight(0.5);
 		add(jSplitPane, BorderLayout.CENTER);
-		actions.setBorder(BorderFactory.createTitledBorder("Actions"));
+		actions.setBorder(BorderFactory.createTitledBorder(I18N.getText("actions")));
 		add(actions, BorderLayout.PAGE_END);
 		refresh();
 	}

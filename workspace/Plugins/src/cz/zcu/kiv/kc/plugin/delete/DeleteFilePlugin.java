@@ -8,6 +8,7 @@ import javax.swing.UIManager;
 
 import cz.zcu.kiv.kc.interfaces.IDeletePlugin;
 import cz.zcu.kiv.kc.plugin.AbstractPlugin;
+import cz.zcu.kiv.kc.plugin.I18N;
 
 public class DeleteFilePlugin extends AbstractPlugin implements IDeletePlugin {
 
@@ -26,10 +27,8 @@ public class DeleteFilePlugin extends AbstractPlugin implements IDeletePlugin {
 					int option = JOptionPane
 							.showConfirmDialog(
 									null,
-									"Directory '"
-											+ file.getName()
-											+ "' is not empty do you want to delete it anyway?",
-									"Directory is not empty",
+									I18N.getText("detleteQuestion", file.getName()),
+									I18N.getText("detleteQuestionTitle"),
 									JOptionPane.YES_NO_OPTION);
 					if (option == JOptionPane.OK_OPTION) {
 						// its ok, delete it
@@ -54,7 +53,7 @@ public class DeleteFilePlugin extends AbstractPlugin implements IDeletePlugin {
 
 	@Override
 	public String getName() {
-		return "Delete";
+		return "delete";
 	}
 
 }
