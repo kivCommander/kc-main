@@ -130,7 +130,7 @@ public class ShowFilePlugin extends AbstractPlugin implements IViewPlugin {
 				sb.append(line);
 				sb.append("\n");
 			}
-			sb.deleteCharAt(sb.length()-1);
+			if (sb.length() > 0) sb.deleteCharAt(sb.length()-1);
 			
 			int winWidth = this.mainWindow.getWidth() - (this.mainWindow.getInsets().left + this.mainWindow.getInsets().right);
 			int winHeight = this.mainWindow.getHeight() - (this.mainWindow.getInsets().top + this.mainWindow.getInsets().bottom);
