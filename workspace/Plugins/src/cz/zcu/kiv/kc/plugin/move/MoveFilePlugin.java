@@ -88,7 +88,7 @@ public class MoveFilePlugin extends AbstractPlugin implements IMovePlugin {
 
 	@Override
 	public String getName() {
-		return "Move";
+		return "move";
 	}
 
 }

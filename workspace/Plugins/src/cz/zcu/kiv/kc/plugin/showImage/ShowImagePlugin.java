@@ -35,7 +35,7 @@ public class ShowImagePlugin extends AbstractPlugin {
 
 	@Override
 	public String getName() {
-		return "Show image";
+		return "showImage";
 	}
 
 }

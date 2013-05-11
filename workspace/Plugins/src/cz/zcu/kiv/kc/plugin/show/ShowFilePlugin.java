@@ -18,6 +18,7 @@ import javax.swing.UIManager;
 
 import cz.zcu.kiv.kc.interfaces.IViewPlugin;
 import cz.zcu.kiv.kc.plugin.AbstractPlugin;
+import cz.zcu.kiv.kc.plugin.I18N;
 
 public class ShowFilePlugin extends AbstractPlugin implements IViewPlugin {
 
@@ -37,8 +38,8 @@ public class ShowFilePlugin extends AbstractPlugin implements IViewPlugin {
 		{
 			JOptionPane.showMessageDialog(
 				this.mainWindow,
-				"No file selected.",
-				"Selection error.",
+				I18N.getText("showFileNoFileSelected"),
+				I18N.getText("showFileSelectionError"),
 				JOptionPane.ERROR_MESSAGE
 			);
 			return;
@@ -46,20 +47,15 @@ public class ShowFilePlugin extends AbstractPlugin implements IViewPlugin {
 		File fileToShow = selectedFiles.get(0);
 		if (!fileToShow.canRead())
 		{
-			JOptionPane.showMessageDialog(
-				this.mainWindow,
-				"Unable to read file.",
-				"Read error.",
-				JOptionPane.ERROR_MESSAGE
-			);
+			this.showUnableToRead();
 			return;
 		}
 		if (!fileToShow.isFile())
 		{
 			JOptionPane.showMessageDialog(
 				this.mainWindow,
-				"Selected item is not file.",
-				"Selection error.",
+				I18N.getText("showFileSelectedItemNotFile"),
+				I18N.getText("showFileSelectionError"),
 				JOptionPane.ERROR_MESSAGE
 			);
 			return;
@@ -73,12 +69,7 @@ public class ShowFilePlugin extends AbstractPlugin implements IViewPlugin {
 		}
 		catch (IOException ignore)
 		{
-			JOptionPane.showMessageDialog(
-				this.mainWindow,
-				"Unable to read file.",
-				"Read error.",
-				JOptionPane.ERROR_MESSAGE
-			);
+			this.showUnableToRead();
 			return;
 		}
 		
@@ -105,16 +96,29 @@ public class ShowFilePlugin extends AbstractPlugin implements IViewPlugin {
 		}
 		else
 		{
-			JOptionPane.showMessageDialog(
-				this.mainWindow,
-				"Unsupported file format.",
-				"Read error.",
-				JOptionPane.ERROR_MESSAGE
-			);
+			this.showUnsupportedType();
 			return;
 		}
 	}
 
+	 
+	private void showUnsupportedType() {
+		JOptionPane.showMessageDialog(
+			this.mainWindow,
+			I18N.getText("showFileUnsupportedFormat"),
+			I18N.getText("showFileReadError"),
+			JOptionPane.ERROR_MESSAGE
+		);
+	}
+	
+	private void showUnableToRead() {
+		JOptionPane.showMessageDialog(
+			this.mainWindow,
+			I18N.getText("showFileUnableRead"),
+			I18N.getText("showFileReadError"),
+			JOptionPane.ERROR_MESSAGE
+		);
+	}
 	/**
 	 * Open viewer's dialog window with content of file.
 	 * @param fileToShow
@@ -144,12 +148,7 @@ public class ShowFilePlugin extends AbstractPlugin implements IViewPlugin {
 		}
 		catch (IOException e)
 		{
-			JOptionPane.showMessageDialog(
-				this.mainWindow,
-				"Unable to read file.",
-				"Error",
-				JOptionPane.ERROR_MESSAGE
-			);
+			this.showUnableToRead();
 		}
 	}
 
@@ -164,12 +163,7 @@ public class ShowFilePlugin extends AbstractPlugin implements IViewPlugin {
 			Image image = ImageIO.read(fileToShow);
 			if (image == null)
 			{
-				JOptionPane.showMessageDialog(
-					this.mainWindow,
-					"Unable to read file format.",
-					"Format error.",
-					JOptionPane.ERROR_MESSAGE
-				);
+				this.showUnsupportedType();
 				return;
 			}
 			image = this.rescaleToWindow(image);
@@ -177,12 +171,7 @@ public class ShowFilePlugin extends AbstractPlugin implements IViewPlugin {
 		}
 		catch (IOException e)
 		{
-			JOptionPane.showMessageDialog(
-				this.mainWindow,
-				"Unable to read file.",
-				"Read error.",
-				JOptionPane.ERROR_MESSAGE
-			);
+			this.showUnableToRead();
 		}
 
 	}
@@ -226,7 +215,7 @@ public class ShowFilePlugin extends AbstractPlugin implements IViewPlugin {
 
 	@Override
 	public String getName() {
-		return "Show";
+		return "show";
 	}
 
 }

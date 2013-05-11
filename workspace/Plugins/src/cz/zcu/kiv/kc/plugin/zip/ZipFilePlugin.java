@@ -25,6 +25,7 @@ import javax.swing.UIManager;
 import javax.swing.SwingWorker.StateValue;
 
 import cz.zcu.kiv.kc.plugin.AbstractPlugin;
+import cz.zcu.kiv.kc.plugin.I18N;
 
 public class ZipFilePlugin extends AbstractPlugin implements PropertyChangeListener
 {
@@ -92,16 +93,16 @@ public class ZipFilePlugin extends AbstractPlugin implements PropertyChangeListe
 			{
 				JOptionPane.showMessageDialog(
 					ZipFilePlugin.this.mainWindow,
-					"Nepodaøilo se vytvoøit výstupní soubor.",
-					"Chyba výstupního souboru.",
+					I18N.getText("zipFileFileNotFound"),
+					I18N.getText("zipFileFileNotFoundTitle"),
 					JOptionPane.ERROR_MESSAGE
 				);
 			} catch (IOException e)
 			{
 				JOptionPane.showMessageDialog(
 					ZipFilePlugin.this.mainWindow,
-					"Neznámá vstupnì/výstupní chyba.\n" + e.getMessage(),
-					"Chyba vstupu/výstupu.",
+					I18N.getText("zipFileIOException", e.getMessage()),
+					I18N.getText("zipFileIOExceptionTitle"),
 					JOptionPane.ERROR_MESSAGE
 				);
 			}
@@ -216,8 +217,8 @@ public class ZipFilePlugin extends AbstractPlugin implements PropertyChangeListe
 			{
 			    JOptionPane.showMessageDialog(
 			    	ZipFilePlugin.this.mainWindow,
-			    	"Neznámá vstupnì/výstupní chyba.",
-			    	"Error",
+			    	I18N.getText("zipFileIOException2"),
+			    	I18N.getText("zipFileIOException2Title"),
 			    	JOptionPane.ERROR_MESSAGE
 			    );           
 			}
@@ -233,7 +234,7 @@ public class ZipFilePlugin extends AbstractPlugin implements PropertyChangeListe
 	
 	JDialog progressDialog = new JDialog(this.mainWindow);
 	JProgressBar pb = new JProgressBar();
-	JLabel jl = new JLabel("Status: ");
+	JLabel jl = new JLabel(I18N.getText("status") + ": ");
 	
 	String destinationPath;
 	
@@ -247,8 +248,8 @@ public class ZipFilePlugin extends AbstractPlugin implements PropertyChangeListe
 		{
 			JOptionPane.showMessageDialog(
 				this.mainWindow,
-				"Nebyly vybrány žádné soubory.",
-				"Žádné soubory",
+				I18N.getText("zipFileNoSelectedFiles"),
+				I18N.getText("zipFileNoSelectedFilesTitle"),
 				JOptionPane.ERROR_MESSAGE
 			);
 			return;
@@ -279,7 +280,7 @@ public class ZipFilePlugin extends AbstractPlugin implements PropertyChangeListe
 	
 	@Override
 	public String getName() {
-		return "Zip";
+		return "zip";
 	}
 
 	@Override
@@ -291,7 +292,7 @@ public class ZipFilePlugin extends AbstractPlugin implements PropertyChangeListe
 		}
 		if (evt.getPropertyName() == "file")
 		{
-			this.jl.setText(evt.getNewValue().toString() + " added");
+			this.jl.setText(evt.getNewValue().toString() + " " + I18N.getText("added"));
 		}
 		if (evt.getPropertyName() == "progress")
 		{
@@ -299,13 +300,6 @@ public class ZipFilePlugin extends AbstractPlugin implements PropertyChangeListe
 		}
 		if (evt.getPropertyName() == "done")
 		{
-			this.sendEvent(this.destinationPath);			
-			JOptionPane.showMessageDialog(
-				this.mainWindow,
-				"Operace byla dokonèena.",
-				"Dokonèeno.",
-				JOptionPane.INFORMATION_MESSAGE
-			);
 			this.progressDialog.dispose();
 			this.sendEvent(destinationPath);
 		}
@@ -329,7 +323,7 @@ public class ZipFilePlugin extends AbstractPlugin implements PropertyChangeListe
 		// ask for actual destination filename
 		String destinationFileName = JOptionPane.showInputDialog(
 			this.mainWindow,
-			"Zadej jméno výstupního souboru",
+			I18N.getText("zipFileDestinationFile"),
 			destinationFileNameHint
 		);
 		
@@ -337,8 +331,8 @@ public class ZipFilePlugin extends AbstractPlugin implements PropertyChangeListe
 		{ // operation canceled
 			JOptionPane.showMessageDialog(
 				this.mainWindow,
-				"Operace byla zrušena uživatelem.",
-				"Operace zrušena.",
+				I18N.getText("zipFileOpCanceled"),
+				I18N.getText("zipFileOpCanceledTitle"),
 				JOptionPane.INFORMATION_MESSAGE
 			);
 			return null;
@@ -347,8 +341,8 @@ public class ZipFilePlugin extends AbstractPlugin implements PropertyChangeListe
 		{ // empty name given
 			JOptionPane.showMessageDialog(
 				this.mainWindow,
-				"Nesprávné zadání. Operace byla zrušena.",
-				"Operace zrušena.",
+				I18N.getText("zipFileOpCanceled"),
+				I18N.getText("zipFileOpCanceledTitle"),
 				JOptionPane.ERROR_MESSAGE
 			);
 			return null;
@@ -359,8 +353,8 @@ public class ZipFilePlugin extends AbstractPlugin implements PropertyChangeListe
 		{
 			int res = JOptionPane.showConfirmDialog(
 				this.mainWindow,
-				"Soubor již existuje. Pøepsat?",
-				"Soubor již existuje.",
+				I18N.getText("zipFileFileExists"),
+				I18N.getText("zipFileFileExistsTitle"),
 				JOptionPane.YES_NO_OPTION
 			);
 			if (res == JOptionPane.NO_OPTION)

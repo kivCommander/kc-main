@@ -30,7 +30,7 @@ public class CreateFilePlugin extends AbstractPlugin  {
 
 	@Override
 	public String getName() {
-		return "Create";
+		return "create";
 	}
 
 }

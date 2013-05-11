@@ -2,8 +2,6 @@ package cz.zcu.kiv.kc.plugin;
 
 import java.awt.Window;
 import java.util.HashMap;
-import java.util.ResourceBundle;
-
 import javax.swing.JOptionPane;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventAdmin;

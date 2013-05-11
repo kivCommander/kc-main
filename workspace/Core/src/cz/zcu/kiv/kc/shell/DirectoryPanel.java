@@ -31,6 +31,8 @@ import javax.swing.ListModel;
 import javax.swing.Timer;
 import javax.swing.filechooser.FileSystemView;
 
+import cz.zcu.kiv.kc.plugin.I18N;
+
 public class DirectoryPanel extends JPanel implements ActionListener,
 		FocusListener {
 		
@@ -72,7 +74,7 @@ public class DirectoryPanel extends JPanel implements ActionListener,
 			5, 5
 		);
 				
-		JButton go = new JButton("GO");
+		JButton go = new JButton(I18N.getText("go"));
 		go.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

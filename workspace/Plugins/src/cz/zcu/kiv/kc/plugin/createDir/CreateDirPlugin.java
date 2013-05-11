@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+import cz.zcu.kiv.kc.plugin.I18N;
 
 import cz.zcu.kiv.kc.interfaces.ICreateDirPlugin;
 import cz.zcu.kiv.kc.plugin.AbstractPlugin;
@@ -28,8 +29,8 @@ public class CreateDirPlugin extends AbstractPlugin implements ICreateDirPlugin 
 		{
 			JOptionPane.showMessageDialog(
 				this.mainWindow,
-				"Operace byla zrušena uživatelem.",
-				"Operace zrušena.",
+				I18N.getText("newDirOpCanceled"),
+				I18N.getText("newDirOpCanceledTitle"),
 				JOptionPane.ERROR_MESSAGE
 			);
 			return;
@@ -38,8 +39,8 @@ public class CreateDirPlugin extends AbstractPlugin implements ICreateDirPlugin 
 		{
 			JOptionPane.showMessageDialog(
 				this.mainWindow,
-				"Neplatné zadání.",
-				"Chyba.",
+				I18N.getText("newDirWrongInput"),
+				I18N.getText("newDirWrongInputTitle"),
 				JOptionPane.ERROR_MESSAGE
 			);
 			return;
@@ -78,7 +79,7 @@ public class CreateDirPlugin extends AbstractPlugin implements ICreateDirPlugin 
 
 	@Override
 	public String getName() {
-		return "New directory";
+		return "newDir";
 	}
 
 }

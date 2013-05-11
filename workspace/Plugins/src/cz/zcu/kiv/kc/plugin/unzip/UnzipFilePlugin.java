@@ -25,6 +25,7 @@ import javax.swing.UIManager;
 import javax.swing.SwingWorker.StateValue;
 
 import cz.zcu.kiv.kc.plugin.AbstractPlugin;
+import cz.zcu.kiv.kc.plugin.I18N;
 
 public class UnzipFilePlugin extends AbstractPlugin implements PropertyChangeListener
 {
@@ -104,7 +105,7 @@ public class UnzipFilePlugin extends AbstractPlugin implements PropertyChangeLis
 
 	JDialog progressDialog = new JDialog(this.mainWindow);
 	JProgressBar pb = new JProgressBar();
-	JLabel jl = new JLabel("Status: ");
+	JLabel jl = new JLabel(I18N.getText("status") + " ");
 	
 	String destinationPath;
 	
@@ -126,7 +127,7 @@ public class UnzipFilePlugin extends AbstractPlugin implements PropertyChangeLis
 		{
 			destinationPath = JOptionPane.showInputDialog(
 				UnzipFilePlugin.this.mainWindow,
-				"Zadejte cílový adresáø pro dekompresi.",
+				I18N.getText("targetFolder"),
 				destinationPath
 				+ (destinationPath.endsWith(File.separator) ? "" : File.separator)
 				+ file.getName().substring(0, file.getName().lastIndexOf('.'))
@@ -135,7 +136,7 @@ public class UnzipFilePlugin extends AbstractPlugin implements PropertyChangeLis
 			{
 				JOptionPane.showMessageDialog(
 					UnzipFilePlugin.this.mainWindow,
-					"Operace byla zrušena uživatelem."
+					I18N.getText("canceledByUser")
 				);
 				return;
 			}
@@ -164,7 +165,7 @@ public class UnzipFilePlugin extends AbstractPlugin implements PropertyChangeLis
 
 	@Override
 	public String getName() {
-		return "Unzip";
+		return "unzip";
 	}
 	
 	@Override
@@ -176,7 +177,7 @@ public class UnzipFilePlugin extends AbstractPlugin implements PropertyChangeLis
 		}
 		if (evt.getPropertyName() == "file")
 		{
-			this.jl.setText(evt.getNewValue().toString() + " extracted");
+			this.jl.setText(evt.getNewValue().toString() + " " + I18N.getText("extracted"));
 		}
 		if (evt.getPropertyName() == "progress")
 		{
@@ -185,13 +186,6 @@ public class UnzipFilePlugin extends AbstractPlugin implements PropertyChangeLis
 		if (evt.getPropertyName() == "done")
 		{
 			System.out.println("refreshing: " + this.destinationPath);
-			this.sendEvent(this.destinationPath);			
-			JOptionPane.showMessageDialog(
-				this.mainWindow,
-				"Operace byla dokonèena.",
-				"Dokonèeno.",
-				JOptionPane.INFORMATION_MESSAGE
-			);
 			this.progressDialog.dispose();
 			this.sendEvent(destinationPath);
 		}

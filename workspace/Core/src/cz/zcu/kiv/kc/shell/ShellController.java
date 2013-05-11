@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.swing.JButton;
 
+import cz.zcu.kiv.kc.plugin.I18N;
 import cz.zcu.kiv.kc.plugin.Plugin;
 
 public class ShellController {
@@ -34,7 +35,7 @@ public class ShellController {
 		JButton button = new JButton();
 		button.setText(plugin.getName());
 		button.addActionListener(new PluginButtonListener(plugin, this));
-		buttons.put(plugin.getName(), button);
+		buttons.put(I18N.getText(plugin.getName()), button);
 		view.addButton(button);		
 	}
 

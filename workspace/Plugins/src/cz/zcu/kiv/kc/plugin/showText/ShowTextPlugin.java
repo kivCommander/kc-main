@@ -33,7 +33,7 @@ public class ShowTextPlugin extends AbstractPlugin{
 
 	@Override
 	public String getName() {
-		return "Show text";
+		return "showText";
 	}
 
 }
