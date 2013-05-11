@@ -28,10 +28,6 @@ public abstract class AbstractPlugin implements Plugin {
 		return JOptionPane.showInputDialog(title);
 	}
 	
-	protected String getResource(String key){
-		return ResourceBundle.getBundle("bundle").getString(key);
-	}
-	
 	@Override
 	public void setMainWindow(Window win)
 	{
