@@ -177,7 +177,7 @@ public class UnzipFilePlugin extends AbstractPlugin implements PropertyChangeLis
 		}
 		if (evt.getPropertyName() == "file")
 		{
-			this.jl.setText(evt.getNewValue().toString() + " " + I18N.getText("extracted"));
+			this.jl.setText(evt.getNewValue().toString() + I18N.getText("extracted"));
 		}
 		if (evt.getPropertyName() == "progress")
 		{
@@ -186,8 +186,8 @@ public class UnzipFilePlugin extends AbstractPlugin implements PropertyChangeLis
 		if (evt.getPropertyName() == "done")
 		{
 			System.out.println("refreshing: " + this.destinationPath);
-			this.progressDialog.dispose();
 			this.sendEvent(destinationPath);
+			this.progressDialog.dispose();
 		}
 	}
 

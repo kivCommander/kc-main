@@ -47,7 +47,7 @@ public class ShowFilePlugin extends AbstractPlugin implements IViewPlugin {
 		File fileToShow = selectedFiles.get(0);
 		if (!fileToShow.canRead())
 		{
-			this.showUnableToRead();
+			showUnableToRead();
 			return;
 		}
 		if (!fileToShow.isFile())

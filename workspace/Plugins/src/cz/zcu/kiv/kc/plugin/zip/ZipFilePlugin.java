@@ -234,7 +234,7 @@ public class ZipFilePlugin extends AbstractPlugin implements PropertyChangeListe
 	
 	JDialog progressDialog = new JDialog(this.mainWindow);
 	JProgressBar pb = new JProgressBar();
-	JLabel jl = new JLabel(I18N.getText("status") + ": ");
+	JLabel jl = new JLabel(I18N.getText("status"));
 	
 	String destinationPath;
 	

@@ -24,21 +24,16 @@ public class CreateDirPlugin extends AbstractPlugin implements ICreateDirPlugin 
 	@Override
 	public void executeAction(List<File> selectedFiles, String destinationPath,
 			String sourcePath) {
-		String name = askForName("New directory name:");
-		if (name == null)
-		{
-			JOptionPane.showMessageDialog(
-				this.mainWindow,
-				I18N.getText("newDirOpCanceled"),
-				I18N.getText("newDirOpCanceledTitle"),
-				JOptionPane.ERROR_MESSAGE
-			);
+		String name = askForName(I18N.getText("newDirName"));
+		if (name == null) {
+			JOptionPane.showMessageDialog(this.mainWindow,
+					I18N.getText("newDirOpCanceled"),
+					I18N.getText("newDirOpCanceledTitle"),
+					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-		if (name.trim().isEmpty())
-		{
-			JOptionPane.showMessageDialog(
-				this.mainWindow,
+		if (name.trim().isEmpty()) {
+			JOptionPane.showMessageDialog(this.mainWindow, 
 				I18N.getText("newDirWrongInput"),
 				I18N.getText("newDirWrongInputTitle"),
 				JOptionPane.ERROR_MESSAGE

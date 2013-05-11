@@ -26,7 +26,7 @@ public class DeleteFilePlugin extends AbstractPlugin implements IDeletePlugin {
 				if (file.isDirectory() && file.listFiles().length > 0) {
 					int option = JOptionPane
 							.showConfirmDialog(
-									this.mainWindow,
+									null,
 									I18N.getText("detleteQuestion", file.getName()),
 									I18N.getText("detleteQuestionTitle"),
 									JOptionPane.YES_NO_OPTION);

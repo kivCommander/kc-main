@@ -32,8 +32,7 @@ import cz.zcu.kiv.kc.plugin.Plugin;
 import cz.zcu.kiv.kc.shell.PluginButtonListener;
 import cz.zcu.kiv.kc.shell.ShellController;
 
-public class Activator implements EventHandler, BundleContextAware
-{
+public class Activator implements EventHandler, BundleContextAware {
 	private BundleContext context;
 
 	private final ShellController shell = new ShellController();
@@ -42,9 +41,8 @@ public class Activator implements EventHandler, BundleContextAware
 	private ICreateDirPlugin createDirPlugin;
 	private IDeletePlugin deletePlugin;
 	private IMovePlugin movePlugin;
-	
-	private Action exitProgram = new AbstractAction()
-	{
+
+	private Action exitProgram = new AbstractAction() {
 		private static final long serialVersionUID = -4656026664533500981L;
 
 		// contructor
@@ -52,21 +50,23 @@ public class Activator implements EventHandler, BundleContextAware
 			putValue(NAME, I18N.getText("exit"));
 			putValue(SHORT_DESCRIPTION, I18N.getText("exitShotDesc"));
 			putValue(MNEMONIC_KEY, KeyEvent.VK_T);
-			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F4, KeyEvent.ALT_DOWN_MASK));
+			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F4,
+					KeyEvent.ALT_DOWN_MASK));
 		}
 		
 		@Override
-		public void actionPerformed(ActionEvent e)
-		{
+		public void actionPerformed(ActionEvent e) {
 			// dispose of all existing windows
-			for (Window win : Window.getWindows())
-			{
+			for (Window win : Window.getWindows()) {
 				win.dispose();
 			}
-			
+
 			// close OSGi framework
-			try { Activator.this.context.getBundle(0).stop(); }
-			catch (BundleException e1) { e1.printStackTrace(); }
+			try {
+				Activator.this.context.getBundle(0).stop();
+			} catch (BundleException e1) {
+				e1.printStackTrace();
+			}
 		}
 	};
 	
@@ -89,23 +89,23 @@ public class Activator implements EventHandler, BundleContextAware
 	{
 		this.menuBar.add(this.pluginsMenu);
 	}
-	
+
 	public void start() throws Exception {
 		UIManager.put("ClassLoader", getClass().getClassLoader());
-	
+
 		SwingUtilities.invokeAndWait(new Runnable() {
-			
+
 			@Override
 			public void run() {
-				/*for (Plugin plugin : plugins) {
-					plugin.setMainWindow(frame);
-					shell.addPlugin((Plugin) plugin);
-				}*/
+				/*
+				 * for (Plugin plugin : plugins) { plugin.setMainWindow(frame);
+				 * shell.addPlugin((Plugin) plugin); }
+				 */
 				shell.addPlugin(Activator.this.viewPlugin);
 				shell.addPlugin(Activator.this.movePlugin);
 				shell.addPlugin(Activator.this.createDirPlugin);
 				shell.addPlugin(Activator.this.deletePlugin);
-				
+
 				frame.add(shell.getView());
 				frame.pack();
 				frame.setVisible(true);
@@ -119,42 +119,36 @@ public class Activator implements EventHandler, BundleContextAware
 	}
 
 	public void setPlugins(final Set<Plugin> plugins) {
-		//this.plugins = plugins;
-		
-		for (Plugin plugin : plugins)
-		{
+		// this.plugins = plugins;
+
+		for (Plugin plugin : plugins) {
 			plugin.setMainWindow(this.frame);
 		}
-		
+
 		JMenuItem plugItem;
-		for (Plugin plugin : plugins)
-		{
+		for (Plugin plugin : plugins) {
 			plugItem = new JMenuItem(I18N.getText(plugin.getName()));
 			plugItem.addActionListener(new PluginButtonListener(plugin, shell));
 			this.pluginsMenu.add(plugItem);
 		}
 	}
 
-	public void setCreateDirPlugin(ICreateDirPlugin plugin)
-	{
+	public void setCreateDirPlugin(ICreateDirPlugin plugin) {
 		this.createDirPlugin = plugin;
 		plugin.setMainWindow(this.frame);
 	}
-	
-	public void setDeletePlugin(IDeletePlugin plugin)
-	{
+
+	public void setDeletePlugin(IDeletePlugin plugin) {
 		this.deletePlugin = plugin;
 		plugin.setMainWindow(this.frame);
 	}
-	
-	public void setMovePlugin(IMovePlugin plugin)
-	{
+
+	public void setMovePlugin(IMovePlugin plugin) {
 		this.movePlugin = plugin;
 		plugin.setMainWindow(this.frame);
 	}
-	
-	public void setViewPlugin(IViewPlugin plugin)
-	{
+
+	public void setViewPlugin(IViewPlugin plugin) {
 		this.viewPlugin = plugin;
 		plugin.setMainWindow(this.frame);
 	}
@@ -166,8 +160,7 @@ public class Activator implements EventHandler, BundleContextAware
 	}
 
 	@Override
-	public void setBundleContext(BundleContext context)
-	{
+	public void setBundleContext(BundleContext context) {
 		this.context = context;
 	}
 }
