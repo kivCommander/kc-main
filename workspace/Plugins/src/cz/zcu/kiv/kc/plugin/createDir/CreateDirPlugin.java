@@ -45,7 +45,8 @@ public class CreateDirPlugin extends AbstractPlugin implements ICreateDirPlugin 
 		}
 		
 		File newDir = new File(sourcePath + File.separator + name);
-		try {
+		try
+		{
 			Files.createDirectory(newDir.toPath());
 		}
 		catch (FileAlreadyExistsException e)
