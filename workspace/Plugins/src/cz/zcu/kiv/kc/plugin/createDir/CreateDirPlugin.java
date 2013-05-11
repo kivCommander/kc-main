@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -54,6 +55,15 @@ public class CreateDirPlugin extends AbstractPlugin implements ICreateDirPlugin 
 			JOptionPane.showMessageDialog(
 				this.mainWindow,
 				"Již existuje soubor/adresáø se zadaným jménem.",
+				"Chyba",
+				JOptionPane.ERROR_MESSAGE
+			);
+		}
+		catch (InvalidPathException e)
+		{
+			JOptionPane.showMessageDialog(
+				this.mainWindow,
+				"Jméno obsahuje nepovolený znaky.",
 				"Chyba",
 				JOptionPane.ERROR_MESSAGE
 			);
