@@ -50,8 +50,8 @@ public class CreateDirPlugin extends AbstractPlugin implements ICreateDirPlugin 
 		{
 			JOptionPane.showMessageDialog(
 				this.mainWindow,
-				"Již existuje soubor/adresáø se zadaným jménem.",
-				"Chyba",
+				I18N.getText("newDirAlredyExists"),
+				I18N.getText("newDirAlredyExistsTitle"),
 				JOptionPane.ERROR_MESSAGE
 			);
 		}
@@ -59,8 +59,8 @@ public class CreateDirPlugin extends AbstractPlugin implements ICreateDirPlugin 
 		{
 			JOptionPane.showMessageDialog(
 				this.mainWindow,
-				"Jméno obsahuje nepovolený znaky.",
-				"Chyba",
+				I18N.getText("newDirWrongChar"), 
+				I18N.getText("newDirWrongCharTitle"), 
 				JOptionPane.ERROR_MESSAGE
 			);
 		}
