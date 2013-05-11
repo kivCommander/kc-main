@@ -1,6 +1,9 @@
 package cz.zcu.kiv.kc.plugin.createDir;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -41,7 +44,24 @@ public class CreateDirPlugin extends AbstractPlugin implements ICreateDirPlugin 
 			return;
 		}
 		
-		new File(sourcePath + File.separator + name).mkdir();
+		File newDir = new File(sourcePath + File.separator + name);
+		try {
+			Files.createDirectory(newDir.toPath());
+		}
+		catch (FileAlreadyExistsException e)
+		{
+			JOptionPane.showMessageDialog(
+				this.mainWindow,
+				"Již existuje soubor/adresáø se zadaným jménem.",
+				"Chyba",
+				JOptionPane.ERROR_MESSAGE
+			);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		//System.out.println(new File(sourcePath + File.separator + name).mkdir());
 		sendEvent(sourcePath);		
 	}
 
