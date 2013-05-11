@@ -4,8 +4,8 @@ Bundle-Name: Test
 Bundle-SymbolicName: Plugins
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Require-Bundle: Common;bundle-version="1.0.0"
 Import-Package: cz.zcu.kiv.kc.interfaces,
+ cz.zcu.kiv.kc.plugin,
  javax.imageio,
  javax.swing,
  org.osgi.framework,
