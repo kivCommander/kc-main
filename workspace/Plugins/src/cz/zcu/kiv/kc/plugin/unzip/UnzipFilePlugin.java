@@ -193,6 +193,7 @@ public class UnzipFilePlugin extends AbstractPlugin implements PropertyChangeLis
 				JOptionPane.INFORMATION_MESSAGE
 			);
 			this.progressDialog.dispose();
+			this.sendEvent(destinationPath);
 		}
 	}
 
