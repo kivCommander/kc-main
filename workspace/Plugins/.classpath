@@ -11,6 +11,5 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/org.springframework.osgi.core"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.springframework.osgi.extender"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.springframework.osgi.io"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/org.ucommons"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

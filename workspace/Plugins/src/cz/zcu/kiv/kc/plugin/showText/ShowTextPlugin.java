@@ -5,11 +5,18 @@ import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 
 import cz.zcu.kiv.kc.plugin.AbstractPlugin;
 
 public class ShowTextPlugin extends AbstractPlugin{
 
+	public ShowTextPlugin()
+	{
+		super();
+		UIManager.put("ClassLoader", getClass().getClassLoader());
+	}
+	
 	@Override
 	public void executeAction(List<File> selectedFiles, String destinationPath,
 			String sourcePath) {

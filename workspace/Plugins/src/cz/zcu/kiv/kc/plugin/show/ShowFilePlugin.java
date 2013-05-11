@@ -7,17 +7,25 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.InvalidPathException;
+//import java.nio.file.InvalidPathException;
 import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
+import javax.swing.UIManager;
 
+import cz.zcu.kiv.kc.interfaces.IViewPlugin;
 import cz.zcu.kiv.kc.plugin.AbstractPlugin;
 
-public class ShowFilePlugin extends AbstractPlugin {
+public class ShowFilePlugin extends AbstractPlugin implements IViewPlugin {
+
+	public ShowFilePlugin()
+	{
+		super();
+		UIManager.put("ClassLoader", getClass().getClassLoader());
+	}
 	
 	@Override
 	public void executeAction(

@@ -7,10 +7,19 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 
+import javax.swing.UIManager;
+
+import cz.zcu.kiv.kc.interfaces.IMovePlugin;
 import cz.zcu.kiv.kc.plugin.AbstractPlugin;
 
-public class MoveFilePlugin extends AbstractPlugin {
+public class MoveFilePlugin extends AbstractPlugin implements IMovePlugin {
 
+	public MoveFilePlugin()
+	{
+		super();
+		UIManager.put("ClassLoader", getClass().getClassLoader());
+	}
+	
 	@Override
 	public void executeAction(List<File> selectedFiles, String destinationPath,
 			String sourcePath) {

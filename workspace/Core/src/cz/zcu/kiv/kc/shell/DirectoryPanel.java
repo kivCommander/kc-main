@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -80,7 +82,8 @@ public class DirectoryPanel extends JPanel implements ActionListener,
 					return;
 				}
 				
-				String newPath = new File(field.getText()).getAbsolutePath();
+				String newPath = new File(field.getText()).getAbsolutePath().toLowerCase();
+
 				ComboBoxModel<File> model = DirectoryPanel.this.mountpoints.getModel();
 				int i;
 				for (i = 0; i < model.getSize(); i++)
@@ -129,6 +132,32 @@ public class DirectoryPanel extends JPanel implements ActionListener,
 		add(menu, BorderLayout.PAGE_START);*/
 		add(topPanel, BorderLayout.PAGE_START);
 		add(new JScrollPane(list), BorderLayout.CENTER);
+		
+		list.addKeyListener(new KeyListener()
+		{			
+			@Override
+			public void keyTyped(KeyEvent e) { }
+			
+			@Override
+			public void keyReleased(KeyEvent e) { }
+			
+			@Override
+			public void keyPressed(KeyEvent e)
+			{
+				if (e.getKeyCode() == KeyEvent.VK_ENTER)
+				{
+					@SuppressWarnings("unchecked")
+					JList<File> list = (JList<File>) e.getSource();
+					File file = list.getSelectedValue();
+					if (file.isDirectory())
+					{
+						DirectoryPanel.this.currentFolder = file.getAbsolutePath();
+						DirectoryPanel.this.field.setText(DirectoryPanel.this.currentFolder);
+						DirectoryPanel.this.changeDir();
+					}
+				}
+			}
+		});
 		
 		list.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent evt) {
