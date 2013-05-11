@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 import cz.zcu.kiv.kc.interfaces.IMovePlugin;
@@ -23,6 +24,16 @@ public class MoveFilePlugin extends AbstractPlugin implements IMovePlugin {
 	@Override
 	public void executeAction(List<File> selectedFiles, String destinationPath,
 			String sourcePath) {
+		if (selectedFiles.size() == 0)
+		{
+			JOptionPane.showMessageDialog(
+				this.mainWindow,
+				"No file selected.",
+				"Selection error.",
+				JOptionPane.ERROR_MESSAGE
+			);
+			return;
+		}
 		for (File file : selectedFiles) {
 			move(file, destinationPath);
 			sendEvent(destinationPath);
