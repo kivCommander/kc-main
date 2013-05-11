@@ -47,7 +47,9 @@ public class DirectoryPanel extends JPanel implements ActionListener,
 	private JTextField field = new JTextField(currentFolder);
 
 	private JComboBox<File> mountpoints = new JComboBox<File>(new MountpointsModel());
-	
+	{
+		mountpoints.setSelectedItem(new File(currentFolder));
+	}
 	private static final int REFRESH_DELAY = 10000; // TODO
 
 	public void changeDir()
