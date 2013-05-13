@@ -4,10 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="showTextPlugin" class="cz.zcu.kiv.kc.plugin.showText.ShowTextPlugin">
-		<property name="eventAdmin" ref="eventAdmin" />
-	</bean>
-	<bean id="showImagePlugin" class="cz.zcu.kiv.kc.plugin.showImage.ShowImagePlugin">
+	<bean id="zipFilePlugin" class="cz.zcu.kiv.kc.plugin.zip.ZipFilePlugin">
 		<property name="eventAdmin" ref="eventAdmin" />
 	</bean>
 
