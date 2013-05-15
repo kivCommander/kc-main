@@ -4,10 +4,16 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="showTextPlugin" class="cz.zcu.kiv.kc.plugin.showText.ShowTextPlugin">
+	<bean id="createDirPlugin" class="cz.zcu.kiv.kc.plugin.createDir.CreateDirPlugin">
 		<property name="eventAdmin" ref="eventAdmin" />
 	</bean>
-	<bean id="showImagePlugin" class="cz.zcu.kiv.kc.plugin.showImage.ShowImagePlugin">
+	<bean id="deletePlugin" class="cz.zcu.kiv.kc.plugin.delete.DeleteFilePlugin">
+		<property name="eventAdmin" ref="eventAdmin" />
+	</bean>
+	<bean id="movePlugin" class="cz.zcu.kiv.kc.plugin.move.MoveFilePlugin">
+		<property name="eventAdmin" ref="eventAdmin" />
+	</bean>
+	<bean id="viewPlugin" class="cz.zcu.kiv.kc.plugin.show.ShowFilePlugin">
 		<property name="eventAdmin" ref="eventAdmin" />
 	</bean>
 

@@ -8,8 +8,7 @@
 	
 	<reference id="eventAdmin" interface="org.osgi.service.event.EventAdmin" />
 
-    <service ref="moveFilePlugin" interface="cz.zcu.kiv.kc.interfaces.IMovePlugin" />
-	<!-- <service ref="moveFilePlugin" interface="cz.zcu.kiv.kc.plugin.Plugin" /> // -->
+    <service ref="showTextPlugin" interface="cz.zcu.kiv.kc.plugin.Plugin" />
 
 </beans:beans>
                 

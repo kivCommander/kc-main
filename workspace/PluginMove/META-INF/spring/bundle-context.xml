@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="moveFilePlugin" class="cz.zcu.kiv.kc.plugin.move.MoveFilePlugin">
+	<bean id="showTextPlugin" class="cz.zcu.kiv.kc.plugin.showText.ShowTextPlugin">
 		<property name="eventAdmin" ref="eventAdmin" />
 	</bean>
 </beans>

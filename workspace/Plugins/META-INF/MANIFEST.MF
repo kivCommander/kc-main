@@ -15,6 +15,8 @@ Import-Package: cz.zcu.kiv.kc.interfaces,
  org.springframework.beans.factory.xml;version="2.5.6.SEC01",
  org.springframework.context,
  org.springframework.core
-Export-Package: cz.zcu.kiv.kc.plugin.create,
- cz.zcu.kiv.kc.plugin.showImage,
- cz.zcu.kiv.kc.plugin.showText
+Export-Package: cz.zcu.kiv.kc.plugin.createDir,
+ cz.zcu.kiv.kc.plugin.delete,
+ cz.zcu.kiv.kc.plugin.move,
+ cz.zcu.kiv.kc.plugin.show
+
