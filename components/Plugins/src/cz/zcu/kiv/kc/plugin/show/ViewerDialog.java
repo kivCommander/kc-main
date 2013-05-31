@@ -22,6 +22,7 @@ public class ViewerDialog extends JDialog
 		super((Window) object, applicationModal);
 		this.add(new JScrollPane(component));
 		this.pack();
+		this.setLocationRelativeTo((Window) object);
 		this.setVisible(true);
 	}
 }

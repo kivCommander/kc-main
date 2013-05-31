@@ -172,7 +172,7 @@ public class ShowFilePlugin extends AbstractPlugin implements IViewPlugin {
 		}
 		catch (IOException e)
 		{
-			this.showUnableToRead();
+			this.showUnableToRead(e);
 		}
 
 	}
