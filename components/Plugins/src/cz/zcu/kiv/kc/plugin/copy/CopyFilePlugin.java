@@ -3,11 +3,8 @@ package cz.zcu.kiv.kc.plugin.copy;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Dialog.ModalityType;
-import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
@@ -28,7 +25,6 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.EnumSet;
 import java.util.List;
 
-import javax.jws.Oneway;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
@@ -42,8 +38,6 @@ import javax.swing.JProgressBar;
 import javax.swing.SwingWorker;
 import javax.swing.UIManager;
 import javax.swing.SwingWorker.StateValue;
-import javax.swing.text.html.parser.TagElement;
-
 import cz.zcu.kiv.kc.interfaces.ICopyPlugin;
 import cz.zcu.kiv.kc.plugin.AbstractPlugin;
 import cz.zcu.kiv.kc.plugin.I18N;
@@ -61,6 +55,8 @@ public class CopyFilePlugin extends AbstractPlugin implements ICopyPlugin, Prope
 	
 	private Action exitAction = new AbstractAction()
 	{
+		private static final long serialVersionUID = 5409574734727190161L;
+
 		{
 			putValue(NAME, I18N.getText("cancelTitle"));
 		}
