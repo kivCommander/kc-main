@@ -23,10 +23,20 @@ public class FileTypeDetector
 			".hta",
 			".java",
 			".c",
-			".log"			
+			".log",
+			".bat",
+			".cmd",
+			".sql",
+			".rdp"
 		};
 	}
 	
+	/**
+	 * Checks whether the file can be showed. So far only checks extension.
+	 * @param pathToFile
+	 * @return
+	 * @throws IOException
+	 */
 	public static String probeFile(Path pathToFile) throws IOException
 	{
 		String ret = null;

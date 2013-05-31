@@ -5,10 +5,10 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 //import java.nio.file.InvalidPathException;
 import java.util.List;
+import java.util.Scanner;
+
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -73,18 +73,6 @@ public class ShowFilePlugin extends AbstractPlugin implements IViewPlugin {
 			return;
 		}
 		
-		/*try { fileType = Files.probeContentType(fileToShow.toPath()); }
-		catch (InvalidPathException | IOException e)
-		{
-			JOptionPane.showMessageDialog(
-				this.mainWindow,
-				"Unable to read file.",
-				"Read error.",
-				JOptionPane.ERROR_MESSAGE
-			);
-			return;
-		}*/
-		
 		System.out.println(fileType);
 		if (fileType != null && fileType.startsWith("image/"))
 		{
@@ -95,7 +83,7 @@ public class ShowFilePlugin extends AbstractPlugin implements IViewPlugin {
 			this.showText(fileToShow);
 		}
 		else
-		{
+		{ // TODO implement HEXADECIMAL view
 			this.showUnsupportedType();
 			return;
 		}
@@ -119,6 +107,16 @@ public class ShowFilePlugin extends AbstractPlugin implements IViewPlugin {
 			JOptionPane.ERROR_MESSAGE
 		);
 	}
+	
+	private void showUnableToRead(IOException ex) {
+		JOptionPane.showMessageDialog(
+			this.mainWindow,
+			I18N.getText("showFileUnableRead") + "\n" + ex.getMessage(),
+			I18N.getText("showFileReadError"),
+			JOptionPane.ERROR_MESSAGE
+		);
+	}
+	
 	/**
 	 * Open viewer's dialog window with content of file.
 	 * @param fileToShow
@@ -127,15 +125,17 @@ public class ShowFilePlugin extends AbstractPlugin implements IViewPlugin {
 	private void showText(File fileToShow)
 	{
 		try
+		(Scanner sc = new Scanner(fileToShow.toPath(), "UTF-8");)
 		{
 			StringBuilder sb = new StringBuilder();
-			for (String line : Files.readAllLines(fileToShow.toPath(), StandardCharsets.UTF_8))
+
+			while (sc.hasNextLine())
 			{
-				sb.append(line);
+				sb.append(sc.nextLine());
 				sb.append("\n");
 			}
 			if (sb.length() > 0) sb.deleteCharAt(sb.length()-1);
-			
+						
 			int winWidth = this.mainWindow.getWidth() - (this.mainWindow.getInsets().left + this.mainWindow.getInsets().right);
 			int winHeight = this.mainWindow.getHeight() - (this.mainWindow.getInsets().top + this.mainWindow.getInsets().bottom);
 			
@@ -148,7 +148,8 @@ public class ShowFilePlugin extends AbstractPlugin implements IViewPlugin {
 		}
 		catch (IOException e)
 		{
-			this.showUnableToRead();
+			e.printStackTrace();
+			this.showUnableToRead(e);
 		}
 	}
 
