@@ -16,5 +16,7 @@
 	<bean id="viewPlugin" class="cz.zcu.kiv.kc.plugin.show.ShowFilePlugin">
 		<property name="eventAdmin" ref="eventAdmin" />
 	</bean>
-
+	<bean id="copyPlugin" class="cz.zcu.kiv.kc.plugin.copy.CopyFilePlugin">
+		<property name="eventAdmin" ref="eventAdmin" />
+	</bean>
 </beans>

@@ -12,6 +12,6 @@
 	<service ref="deletePlugin" interface="cz.zcu.kiv.kc.interfaces.IDeletePlugin" />
 	<service ref="movePlugin" interface="cz.zcu.kiv.kc.interfaces.IMovePlugin" />
 	<service ref="viewPlugin" interface="cz.zcu.kiv.kc.interfaces.IViewPlugin" />
-	
+	<service ref="copyPlugin" interface="cz.zcu.kiv.kc.interfaces.ICopyPlugin" />
 </beans:beans>
                 

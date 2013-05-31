@@ -23,6 +23,7 @@ import org.osgi.service.event.Event;
 import org.osgi.service.event.EventHandler;
 import org.springframework.osgi.context.BundleContextAware;
 
+import cz.zcu.kiv.kc.interfaces.ICopyPlugin;
 import cz.zcu.kiv.kc.interfaces.ICreateDirPlugin;
 import cz.zcu.kiv.kc.interfaces.IDeletePlugin;
 import cz.zcu.kiv.kc.interfaces.IMovePlugin;
@@ -41,6 +42,7 @@ public class Activator implements EventHandler, BundleContextAware {
 	private ICreateDirPlugin createDirPlugin;
 	private IDeletePlugin deletePlugin;
 	private IMovePlugin movePlugin;
+	private ICopyPlugin copyPlugin;
 
 	private Action exitProgram = new AbstractAction() {
 		private static final long serialVersionUID = -4656026664533500981L;
@@ -103,12 +105,14 @@ public class Activator implements EventHandler, BundleContextAware {
 				 */
 				shell.addPlugin(Activator.this.viewPlugin);
 				shell.addPlugin(Activator.this.movePlugin);
+				shell.addPlugin(Activator.this.copyPlugin);
 				shell.addPlugin(Activator.this.createDirPlugin);
 				shell.addPlugin(Activator.this.deletePlugin);
 
 				frame.add(shell.getView());
 				frame.pack();
 				frame.setVisible(true);
+				frame.setLocationRelativeTo(null);
 				shell.refresh();
 			}
 		});
@@ -150,6 +154,11 @@ public class Activator implements EventHandler, BundleContextAware {
 
 	public void setViewPlugin(IViewPlugin plugin) {
 		this.viewPlugin = plugin;
+		plugin.setMainWindow(this.frame);
+	}
+	
+	public void setCopyPlugin(ICopyPlugin plugin) {
+		this.copyPlugin = plugin;
 		plugin.setMainWindow(this.frame);
 	}
 	

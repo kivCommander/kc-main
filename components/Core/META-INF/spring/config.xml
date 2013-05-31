@@ -8,6 +8,7 @@
                                  http://www.springframework.org/schema/osgi/spring-osgi.xsd">
 
 	<set id="plugins" interface="cz.zcu.kiv.kc.plugin.Plugin" />
+	<reference id="copyPluginService" interface="cz.zcu.kiv.kc.interfaces.ICopyPlugin" />
 	<reference id="createDirPluginService" interface="cz.zcu.kiv.kc.interfaces.ICreateDirPlugin" />
 	<reference id="deletePluginService" interface="cz.zcu.kiv.kc.interfaces.IDeletePlugin" />
 	<reference id="movePluginService" interface="cz.zcu.kiv.kc.interfaces.IMovePlugin" />
@@ -20,6 +21,7 @@
 		<beans:property name="deletePlugin" ref="deletePluginService" />
 		<beans:property name="movePlugin" ref="movePluginService" />
 		<beans:property name="viewPlugin"  ref="viewPluginService" />
+		<beans:property name="copyPlugin" ref="copyPluginService" />
 	</beans:bean>
 
 	<service id="refreshListener" ref="coreActivator"
