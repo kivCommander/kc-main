@@ -91,8 +91,8 @@ public class UnzipFilePlugin extends AbstractPlugin implements PropertyChangeLis
 							{ // trying to overwrite existing file
 								int res = JOptionPane.showConfirmDialog(
 									UnzipFilePlugin.this.mainWindow,
-									"Soubor již existuje. Pøepsat?",
-									"Pøepsat?",
+									I18N.getText("overwriteExisting", newFile),
+									I18N.getText("overwriteExistingTitle"),
 									JOptionPane.YES_NO_CANCEL_OPTION
 								);
 								if (res == JOptionPane.NO_OPTION)
