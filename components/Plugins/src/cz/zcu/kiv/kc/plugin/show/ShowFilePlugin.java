@@ -38,6 +38,11 @@ import cz.zcu.kiv.kc.interfaces.IViewPlugin;
 import cz.zcu.kiv.kc.plugin.AbstractPlugin;
 import cz.zcu.kiv.kc.plugin.I18N;
 
+/**
+ * Show file plug-in. Detects file type and shows either image viewer, text viewer or hexadecimal viewer.
+ * @author Michal
+ *
+ */
 public class ShowFilePlugin extends AbstractPlugin implements IViewPlugin, PropertyChangeListener {
 
 	private LoadBinnaryDataTask worker = null;
@@ -228,7 +233,7 @@ public class ShowFilePlugin extends AbstractPlugin implements IViewPlugin, Prope
 		);
 	}
 	/**
-	 * Open viewer's dialog window with content of file.
+	 * Open text viewer's dialog window with content of file.
 	 * @param fileToShow
 	 * @throws IOException 
 	 */
@@ -256,7 +261,7 @@ public class ShowFilePlugin extends AbstractPlugin implements IViewPlugin, Prope
 	}
 
 	/**
-	 * Open viewer's dialog window with image
+	 * Open image viewer's dialog window with image
 	 * @param fileToShow
 	 */
 	private void showImage(File fileToShow)
@@ -279,6 +284,10 @@ public class ShowFilePlugin extends AbstractPlugin implements IViewPlugin, Prope
 
 	}
 	
+	/**
+	 * Opens text viewer with "content" text.
+	 * @param content
+	 */
 	private void show(String content)
 	{
     	int winWidth = this.mainWindow.getWidth() - (this.mainWindow.getInsets().left + this.mainWindow.getInsets().right);
@@ -343,7 +352,10 @@ public class ShowFilePlugin extends AbstractPlugin implements IViewPlugin, Prope
 		{
 			this.fileToShow = fileToShow;
 		}
-		
+
+		/**
+		 * Loads content of file and constructs hexadecimal representation.
+		 */
 		@Override
 		protected String doInBackground() throws Exception {
 			StringBuilder sb = new StringBuilder();

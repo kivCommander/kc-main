@@ -10,6 +10,11 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
+/**
+ * Alternative image viewer
+ * @author Michal
+ *
+ */
 public class ImageViewer extends JPanel {
 	private static final long serialVersionUID = 885202053851291681L;
 	private BufferedImage image;

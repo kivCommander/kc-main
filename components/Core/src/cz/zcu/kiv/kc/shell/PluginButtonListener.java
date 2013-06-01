@@ -12,7 +12,7 @@ import cz.zcu.kiv.kc.plugin.Plugin;
 
 /**
  * @author 2540p
- *
+ * Creates action listener for given plug-in.
  */
 public class PluginButtonListener implements ActionListener {
 	

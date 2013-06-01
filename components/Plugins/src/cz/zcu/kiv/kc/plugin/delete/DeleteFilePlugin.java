@@ -10,6 +10,11 @@ import cz.zcu.kiv.kc.interfaces.IDeletePlugin;
 import cz.zcu.kiv.kc.plugin.AbstractPlugin;
 import cz.zcu.kiv.kc.plugin.I18N;
 
+/**
+ * Delete selected items plug-in
+ * @author Michal
+ *
+ */
 public class DeleteFilePlugin extends AbstractPlugin implements IDeletePlugin {
 
 	public DeleteFilePlugin()

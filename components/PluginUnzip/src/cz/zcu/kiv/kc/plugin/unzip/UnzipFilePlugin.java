@@ -27,6 +27,11 @@ import javax.swing.SwingWorker.StateValue;
 import cz.zcu.kiv.kc.plugin.AbstractPlugin;
 import cz.zcu.kiv.kc.plugin.I18N;
 
+/**
+ * UnZip decompression plug-in. Executes compression in separate SwingWorker thread. Provides progress dialog.
+ * @author Michal
+ *
+ */
 public class UnzipFilePlugin extends AbstractPlugin implements PropertyChangeListener
 {
 	private class DecompressionTask extends SwingWorker<Void, Void>

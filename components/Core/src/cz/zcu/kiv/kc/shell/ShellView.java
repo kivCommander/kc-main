@@ -14,6 +14,11 @@ import javax.swing.JSplitPane;
 
 import cz.zcu.kiv.kc.plugin.I18N;
 
+/**
+ * View for the application
+ * @author Michal
+ *
+ */
 public class ShellView extends JPanel implements FocusListener {
 
 	private static final long serialVersionUID = 3313986206312859936L;

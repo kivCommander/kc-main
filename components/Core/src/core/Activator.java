@@ -33,6 +33,11 @@ import cz.zcu.kiv.kc.plugin.Plugin;
 import cz.zcu.kiv.kc.shell.PluginButtonListener;
 import cz.zcu.kiv.kc.shell.ShellController;
 
+/**
+ * Main application. Creates main window and registers plug-ins.
+ * @author Michal
+ *
+ */
 public class Activator implements EventHandler, BundleContextAware {
 	private BundleContext context;
 
@@ -92,17 +97,18 @@ public class Activator implements EventHandler, BundleContextAware {
 		this.menuBar.add(this.pluginsMenu);
 	}
 
+	/**
+	 * bundle initialization method
+	 * @throws Exception
+	 */
 	public void start() throws Exception {
+		// necessary for proper working under OSGi environment.  
 		UIManager.put("ClassLoader", getClass().getClassLoader());
 
 		SwingUtilities.invokeAndWait(new Runnable() {
 
 			@Override
 			public void run() {
-				/*
-				 * for (Plugin plugin : plugins) { plugin.setMainWindow(frame);
-				 * shell.addPlugin((Plugin) plugin); }
-				 */
 				shell.addPlugin(Activator.this.viewPlugin);
 				shell.addPlugin(Activator.this.movePlugin);
 				shell.addPlugin(Activator.this.copyPlugin);
@@ -118,10 +124,18 @@ public class Activator implements EventHandler, BundleContextAware {
 		});
 	}
 
+	/**
+	 * bundle stop method
+	 * @throws Exception
+	 */
 	public void stop() throws Exception {
 		frame.setVisible(false);
 	}
 
+	/**
+	 * setter for implementations of Plugin interface. Called by spring-dm.
+	 * @param plugins
+	 */
 	public void setPlugins(final Set<Plugin> plugins) {
 		// this.plugins = plugins;
 
@@ -137,37 +151,68 @@ public class Activator implements EventHandler, BundleContextAware {
 		}
 	}
 
+	/**
+	 * spring-dm: setter for ICreateDirPlugin impl.
+	 * @param plugin
+	 */
 	public void setCreateDirPlugin(ICreateDirPlugin plugin) {
 		this.createDirPlugin = plugin;
 		plugin.setMainWindow(this.frame);
 	}
 
+	/**
+	 * spring-dm: setter for IDeletePlugin impl
+	 * @param plugin
+	 */
 	public void setDeletePlugin(IDeletePlugin plugin) {
 		this.deletePlugin = plugin;
 		plugin.setMainWindow(this.frame);
 	}
 
+	/**
+	 * spring-dm: setter for IMovePlugin impl
+	 * @param plugin
+	 */
 	public void setMovePlugin(IMovePlugin plugin) {
 		this.movePlugin = plugin;
 		plugin.setMainWindow(this.frame);
 	}
 
+	/**
+	 * spring-dm: setter for IViewPlugin impl
+	 * @param plugin
+	 */
 	public void setViewPlugin(IViewPlugin plugin) {
 		this.viewPlugin = plugin;
 		plugin.setMainWindow(this.frame);
 	}
 	
+	/**
+	 * spring-dm: setter for ICopyPlugin impl
+	 * @param plugin
+	 */
 	public void setCopyPlugin(ICopyPlugin plugin) {
 		this.copyPlugin = plugin;
 		plugin.setMainWindow(this.frame);
 	}
 	
+	/**
+	 * Handles event. If event object contains "dir" property, executes model refresh for given directory.
+	 */
 	@Override
 	public void handleEvent(Event event) {
+		if (!event.containsProperty("dir"))
+		{
+			return;
+		}
+		
 		String dir = (String) event.getProperty("dir");
 		shell.refresh(dir);
 	}
 
+	/**
+	 * OSGi: bundle context setter
+	 */
 	@Override
 	public void setBundleContext(BundleContext context) {
 		this.context = context;

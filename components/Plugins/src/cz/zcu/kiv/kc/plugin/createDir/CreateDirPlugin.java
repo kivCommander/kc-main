@@ -14,6 +14,11 @@ import cz.zcu.kiv.kc.plugin.I18N;
 import cz.zcu.kiv.kc.interfaces.ICreateDirPlugin;
 import cz.zcu.kiv.kc.plugin.AbstractPlugin;
 
+/**
+ * Create directory plug-in.
+ * @author Michal
+ *
+ */
 public class CreateDirPlugin extends AbstractPlugin implements ICreateDirPlugin {
 
 	public CreateDirPlugin()

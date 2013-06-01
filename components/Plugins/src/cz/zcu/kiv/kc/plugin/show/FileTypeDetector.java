@@ -4,6 +4,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+/**
+ * Provides basic file type detection. So far only detects by file extensions.
+ * @author Michal
+ *
+ */
 public class FileTypeDetector
 {
 
@@ -34,7 +39,7 @@ public class FileTypeDetector
 	/**
 	 * Checks whether the file can be showed. So far only checks extension.
 	 * @param pathToFile
-	 * @return
+	 * @return detected file type
 	 * @throws IOException
 	 */
 	public static String probeFile(Path pathToFile) throws IOException

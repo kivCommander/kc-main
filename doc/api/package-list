@@ -1,0 +1,13 @@
+core
+cz.zcu.kiv.kc.interfaces
+cz.zcu.kiv.kc.plugin
+cz.zcu.kiv.kc.plugin.copy
+cz.zcu.kiv.kc.plugin.createDir
+cz.zcu.kiv.kc.plugin.delete
+cz.zcu.kiv.kc.plugin.move
+cz.zcu.kiv.kc.plugin.show
+cz.zcu.kiv.kc.plugin.showImage
+cz.zcu.kiv.kc.plugin.showText
+cz.zcu.kiv.kc.plugin.unzip
+cz.zcu.kiv.kc.plugin.zip
+cz.zcu.kiv.kc.shell

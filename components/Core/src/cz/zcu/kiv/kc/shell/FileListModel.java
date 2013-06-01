@@ -8,6 +8,11 @@ import javax.swing.AbstractListModel;
 //import javax.swing.event.ListDataEvent;
 //import javax.swing.event.ListDataListener;
 
+/**
+ * data model for directory panel
+ * @author Michal
+ *
+ */
 public class FileListModel extends AbstractListModel<File> {
 
 	private static final long serialVersionUID = 1616095720949603826L;
@@ -62,6 +67,9 @@ public class FileListModel extends AbstractListModel<File> {
 		return files.length + (this.parentDir != null ? 1 : 0);
 	}
 	
+	/**
+	 * Refreshes model according to currently set directory.
+	 */
 	public void refresh() {
 		this.maxLength = 0;
 		int origFilesCount = this.files.length;
@@ -75,6 +83,8 @@ public class FileListModel extends AbstractListModel<File> {
 		
 		Arrays.sort(this.files, this.filenameComparator);
 
+		// find file with the longest name -> in order to be able
+		// to preset dimension in directorypanel's file list
 		for (File arg0 : this.files)
 		{
 			if (maxLength < arg0.getName().length())
@@ -86,56 +96,12 @@ public class FileListModel extends AbstractListModel<File> {
 		
 		this.fireIntervalRemoved(this, 0, origFilesCount);
 		this.fireIntervalAdded(this, 0, this.files.length + (this.parentDir != null ? 1 : 0));
-		/*String parentFile = dir.getParent();
-		if (parentFile != null) {
-			files = new File[childFilesLength + 1];
-			files[0] = new FirstFile(parentFile);
-		} else {
-			files = new File[childFilesLength];
-		}
-		if (childFiles != null) {
-			Arrays.sort(childFiles, new Comparator<File>() {
-				@Override
-				public int compare(File arg0, File arg1) {
-					int ret;
-					if (arg0.isDirectory() && !arg1.isDirectory()) {
-						ret = -1;
-					} else if (!arg0.isDirectory() && arg1.isDirectory()) {
-						ret = 1;
-					} else if (arg0.isDirectory() && arg1.isDirectory()) {
-						ret = arg0.getName()
-								.compareToIgnoreCase(arg1.getName());
-					} else {
-						ret = arg0.getName()
-								.compareToIgnoreCase(arg1.getName());
-					}
-					return ret;
-				}
-			});
-			if (parentFile != null) {
-				for (int i = 1; i < childFilesLength + 1; i++) {
-					files[i] = childFiles[i - 1];
-				}
-			} else {
-				for (int i = 0; i < childFilesLength; i++) {
-					files[i] = childFiles[i];
-				}
-			}
-		}
-		ListDataEvent event = new ListDataEvent(this,
-				ListDataEvent.CONTENTS_CHANGED, 0, files.length);
-		for (ListDataListener listener : listenerList
-				.getListeners(ListDataListener.class)) {
-			listener.contentsChanged(event);
-		}
-		ListDataEvent event2 = new ListDataEvent(this,
-				ListDataEvent.INTERVAL_REMOVED, 0, files.length);
-		for (ListDataListener listener : listenerList
-				.getListeners(ListDataListener.class)) {
-			listener.contentsChanged(event2);
-		}*/
 	}
 
+	/**
+	 * current directory setter
+	 * @param dirPath
+	 */
 	public void setDirPath(String dirPath) {
 		this.dirPath = dirPath;
 		refresh();

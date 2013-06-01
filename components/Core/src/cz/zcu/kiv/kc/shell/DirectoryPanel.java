@@ -33,8 +33,12 @@ import javax.swing.filechooser.FileSystemView;
 
 import cz.zcu.kiv.kc.plugin.I18N;
 
-public class DirectoryPanel extends JPanel implements ActionListener,
-		FocusListener {
+/**
+ * implements independent directory panel
+ * @author Michal
+ *
+ */
+public class DirectoryPanel extends JPanel implements ActionListener, FocusListener {
 		
 	private static final long serialVersionUID = 840871288858771069L;
 	
@@ -52,15 +56,20 @@ public class DirectoryPanel extends JPanel implements ActionListener,
 	}
 	private static final int REFRESH_DELAY = 10000; // TODO
 
+	/**
+	 * changes current directory to directory set in currentFolder property
+	 */
 	public void changeDir()
 	{
 		listModel.setDirPath(this.currentFolder);
 		list.setSelectedIndex(0);
 	}
 	
-	public DirectoryPanel() {
-		//this.list.setPrototypeCellValue(new File(DirectoryPanel.maxLength));
-		
+	/**
+	 * builds panel's GUI
+	 */
+	public DirectoryPanel()
+	{
 		Timer timer = new Timer(REFRESH_DELAY, this);
 		timer.start();
 		setLayout(new BorderLayout());
@@ -220,6 +229,9 @@ public class DirectoryPanel extends JPanel implements ActionListener,
 		refreshLists();
 	}
 
+	/**
+	 * Refreshes currently viewed directory in order to reflect possible changes in filesystem.
+	 */
 	public void refreshLists() {
 		if (refreshInProgress) {
 			// previous refresh is in process, skip this round
@@ -231,7 +243,8 @@ public class DirectoryPanel extends JPanel implements ActionListener,
 			refreshInProgress = false;
 		}
 	}
-	public void setSelectedValues(JList<File> list, List<File> values) {
+	
+	private void setSelectedValues(JList<File> list, List<File> values) {
 	    list.clearSelection();
 	    for (File value : values) {
 	        int index = getIndex(list.getModel(), value);
@@ -241,7 +254,7 @@ public class DirectoryPanel extends JPanel implements ActionListener,
 	    }
 	}
 
-	public int getIndex(ListModel<File> model, Object value) {
+	private int getIndex(ListModel<File> model, Object value) {
 	    if (value == null) return -1;
 	    if (model instanceof DefaultListModel) {
 	        return ((DefaultListModel<File>) model).indexOf(value);
@@ -252,10 +265,18 @@ public class DirectoryPanel extends JPanel implements ActionListener,
 	    return -1;
 	}
 
+	/**
+	 * current folder getter
+	 * @return current folder
+	 */
 	public String getCurrentFolder() {
 		return currentFolder;
 	}
 
+	/**
+	 * current selection getter
+	 * @return current selection
+	 */
 	public List<File> getSelectedFiles() {
 		return list.getSelectedValuesList();
 	}
@@ -280,6 +301,9 @@ public class DirectoryPanel extends JPanel implements ActionListener,
 		listeners.add(listener);
 	}
 
+	/**
+	 * Clears current selection.
+	 */
 	public void clearSelection() {
 		list.clearSelection();
 	}

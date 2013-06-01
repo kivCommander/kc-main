@@ -42,6 +42,12 @@ import cz.zcu.kiv.kc.interfaces.ICopyPlugin;
 import cz.zcu.kiv.kc.plugin.AbstractPlugin;
 import cz.zcu.kiv.kc.plugin.I18N;
 
+/**
+ * Copy plug-in. Executes copying in separate SwingWorkeg thread.
+ * Shows progress dialog and provides button for cancellation.
+ * @author Michal
+ *
+ */
 public class CopyFilePlugin extends AbstractPlugin implements ICopyPlugin, PropertyChangeListener
 {
 

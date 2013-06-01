@@ -9,6 +9,11 @@ import javax.swing.UIManager;
 
 import cz.zcu.kiv.kc.plugin.AbstractPlugin;
 
+/**
+ * Alternative image viewer plug-in
+ * @author Michal
+ *
+ */
 public class ShowImagePlugin extends AbstractPlugin {
 
 

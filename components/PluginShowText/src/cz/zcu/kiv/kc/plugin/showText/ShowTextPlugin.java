@@ -9,7 +9,12 @@ import javax.swing.UIManager;
 
 import cz.zcu.kiv.kc.plugin.AbstractPlugin;
 
-public class ShowTextPlugin extends AbstractPlugin{
+/**
+ * Alternative text viewer plug-in
+ * @author Michal
+ *
+ */
+public class ShowTextPlugin extends AbstractPlugin {
 
 	public ShowTextPlugin()
 	{

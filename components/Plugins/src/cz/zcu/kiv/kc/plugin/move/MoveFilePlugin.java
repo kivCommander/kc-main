@@ -43,6 +43,11 @@ import cz.zcu.kiv.kc.interfaces.IMovePlugin;
 import cz.zcu.kiv.kc.plugin.AbstractPlugin;
 import cz.zcu.kiv.kc.plugin.I18N;
 
+/**
+ * Move selected items plug-in
+ * @author Michal
+ *
+ */
 public class MoveFilePlugin extends AbstractPlugin implements IMovePlugin, PropertyChangeListener {
 
 	private MoveTask worker;

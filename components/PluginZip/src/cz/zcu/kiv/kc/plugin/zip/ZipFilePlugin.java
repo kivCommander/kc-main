@@ -27,6 +27,11 @@ import javax.swing.SwingWorker.StateValue;
 import cz.zcu.kiv.kc.plugin.AbstractPlugin;
 import cz.zcu.kiv.kc.plugin.I18N;
 
+/**
+ * Zip compression plug-in. Executes compression in separate SwingWorker thread. Provides progress dialog.
+ * @author Michal
+ *
+ */
 public class ZipFilePlugin extends AbstractPlugin implements PropertyChangeListener
 {
 

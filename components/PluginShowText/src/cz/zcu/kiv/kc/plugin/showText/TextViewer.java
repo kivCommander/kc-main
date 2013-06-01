@@ -8,6 +8,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
 
+/**
+ * Alternative text viewer
+ * @author Michal
+ *
+ */
 public class TextViewer extends JPanel {
 	private static final long serialVersionUID = -3740944757153796505L;
 
