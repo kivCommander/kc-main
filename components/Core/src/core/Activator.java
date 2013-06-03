@@ -5,8 +5,6 @@ import java.awt.Dimension;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.io.File;
-import java.io.IOException;
 import java.util.Set;
 
 import javax.swing.AbstractAction;
@@ -77,28 +75,6 @@ public class Activator implements EventHandler, BundleContextAware {
 				e1.printStackTrace();
 			}
 		}
-	};	
-	
-	private Action help = new AbstractAction() {
-		private static final long serialVersionUID = -4656026664533500981L;
-
-		// contructor
-		{
-			putValue(NAME, I18N.getText("help"));
-			putValue(SHORT_DESCRIPTION, I18N.getText("helpShotDesc"));
-			putValue(MNEMONIC_KEY, KeyEvent.VK_P);
-			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F1,
-					KeyEvent.ALT_DOWN_MASK));
-		}
-		
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			try {
-				Runtime.getRuntime().exec("hh.exe " + new File("help.chm").getAbsolutePath());
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-		}
 	};
 	
 	private final JFrame frame = new JFrame(I18N.getText("title"));
@@ -114,7 +90,6 @@ public class Activator implements EventHandler, BundleContextAware {
 	private JMenu fileMenu = new JMenu(I18N.getText("file"));
 	{
 		this.menuBar.add(this.fileMenu);
-		this.fileMenu.add(this.help);
 		this.fileMenu.add(this.exitProgram);
 	}
 	private JMenu pluginsMenu = new JMenu(I18N.getText("plugins"));
