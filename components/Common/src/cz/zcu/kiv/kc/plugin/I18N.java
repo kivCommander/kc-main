@@ -10,8 +10,12 @@ import java.util.ResourceBundle;
  */
 public class I18N {
 	public static String getText(String key) {
-		return ResourceBundle.getBundle("kivCmd", Locale.getDefault())
-				.getString(key);
+		String ret = key;
+		try
+		{
+			ret = ResourceBundle.getBundle("kivCmd", Locale.getDefault()).getString(key);
+		} catch (java.util.MissingResourceException ex) {}
+		return ret;
 	}
 	
 	public static String getText(String key, Object param) {

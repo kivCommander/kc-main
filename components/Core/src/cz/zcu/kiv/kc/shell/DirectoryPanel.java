@@ -57,12 +57,32 @@ public class DirectoryPanel extends JPanel implements ActionListener, FocusListe
 	private static final int REFRESH_DELAY = 10000; // TODO
 
 	/**
-	 * changes current directory to directory set in currentFolder property
+	 * changes current directory to directory described in destination parameter
 	 */
-	public void changeDir()
+	public void changeDir(File destination)
 	{
-		listModel.setDirPath(this.currentFolder);
-		list.setSelectedIndex(0);
+		String newPath = destination.getAbsolutePath().toLowerCase();
+		ComboBoxModel<File> model = this.mountpoints.getModel();
+		int i;
+		for (i = 0; i < model.getSize(); i++)
+		{
+			String root = ((File)model.getElementAt(i)).getAbsolutePath().toLowerCase();
+			if (newPath.startsWith(root)) {
+				break;
+			}
+		}
+		if (i >= model.getSize())
+		{
+			System.out.println("Unknown destination path: " + destination);
+		}
+		
+		this.currentFolder = destination.getAbsolutePath();
+
+		this.listModel.setDirPath(this.currentFolder);
+		this.list.setSelectedIndex(0);
+		this.list.setPrototypeCellValue(((FileListModel)this.list.getModel()).getLongestName());
+		this.field.setText(DirectoryPanel.this.currentFolder);
+		model.setSelectedItem(((File)model.getElementAt(i)));
 	}
 	
 	/**
@@ -95,24 +115,26 @@ public class DirectoryPanel extends JPanel implements ActionListener, FocusListe
 					return;
 				}
 				
-				String newPath = new File(field.getText()).getAbsolutePath().toLowerCase();
-
-				ComboBoxModel<File> model = DirectoryPanel.this.mountpoints.getModel();
-				int i;
-				for (i = 0; i < model.getSize(); i++)
-				{
-					String root = ((File)model.getElementAt(i)).getAbsolutePath().toLowerCase();
-					if (newPath.startsWith(root)) {
-						break;
-					}
-				}
-				if (i >= model.getSize())
-				{
-					return;
-				}
-				DirectoryPanel.this.currentFolder = newPath;
-				model.setSelectedItem(((File)model.getElementAt(i)));
-				DirectoryPanel.this.changeDir();
+				DirectoryPanel.this.changeDir(new File(field.getText()));
+				
+//				String newPath = new File(field.getText()).getAbsolutePath().toLowerCase();
+//
+//				ComboBoxModel<File> model = DirectoryPanel.this.mountpoints.getModel();
+//				int i;
+//				for (i = 0; i < model.getSize(); i++)
+//				{
+//					String root = ((File)model.getElementAt(i)).getAbsolutePath().toLowerCase();
+//					if (newPath.startsWith(root)) {
+//						break;
+//					}
+//				}
+//				if (i >= model.getSize())
+//				{
+//					return;
+//				}
+//				DirectoryPanel.this.currentFolder = newPath;
+//				model.setSelectedItem(((File)model.getElementAt(i)));
+//				DirectoryPanel.this.changeDir();
 			}
 		});
 		
@@ -122,11 +144,13 @@ public class DirectoryPanel extends JPanel implements ActionListener, FocusListe
 			public void actionPerformed(ActionEvent e) {
 				String currentPath = DirectoryPanel.this.currentFolder.toLowerCase();
 				String newRoot = ((File)DirectoryPanel.this.mountpoints.getSelectedItem()).getAbsolutePath().toLowerCase();
+				// check prevents recursive calls between combobox and go button
 				if (!currentPath.startsWith(newRoot))
 				{
-					DirectoryPanel.this.currentFolder = ((File)DirectoryPanel.this.mountpoints.getSelectedItem()).getAbsolutePath();
-					DirectoryPanel.this.field.setText(DirectoryPanel.this.currentFolder);
-					DirectoryPanel.this.changeDir();
+					DirectoryPanel.this.changeDir((File)DirectoryPanel.this.mountpoints.getSelectedItem());
+//					DirectoryPanel.this.currentFolder = ((File)DirectoryPanel.this.mountpoints.getSelectedItem()).getAbsolutePath();
+//					DirectoryPanel.this.field.setText(DirectoryPanel.this.currentFolder);
+//					DirectoryPanel.this.changeDir();
 				}
 				
 			}
@@ -164,9 +188,12 @@ public class DirectoryPanel extends JPanel implements ActionListener, FocusListe
 					File file = list.getSelectedValue();
 					if (file.isDirectory())
 					{
-						DirectoryPanel.this.currentFolder = file.getAbsolutePath();
-						DirectoryPanel.this.field.setText(DirectoryPanel.this.currentFolder);
-						DirectoryPanel.this.changeDir();
+						DirectoryPanel.this.changeDir(file);
+						
+//						DirectoryPanel.this.currentFolder = file.getAbsolutePath();
+//						DirectoryPanel.this.field.setText(DirectoryPanel.this.currentFolder);
+//						DirectoryPanel.this.changeDir();
+//						DirectoryPanel.this.list.setPrototypeCellValue(((FileListModel)list.getModel()).getLongestName());
 					}
 				}
 			}
@@ -180,13 +207,15 @@ public class DirectoryPanel extends JPanel implements ActionListener, FocusListe
 					int index = list.locationToIndex(evt.getPoint());
 					File file = list.getModel().getElementAt(index);
 					if (file.isDirectory()) {
-						field.setText(file.getAbsolutePath());
-						listModel.setDirPath(field.getText());
-						list.setSelectedIndex(0);
-						currentFolder = field.getText();
-						// sets cell prototype to accelerate rendering
-						// of very long folders
-						list.setPrototypeCellValue(((FileListModel)list.getModel()).getLongestName());
+						DirectoryPanel.this.changeDir(file);
+//						DirectoryPanel.this.currentFolder = file.getAbsolutePath();
+//						DirectoryPanel.this.field.setText(DirectoryPanel.this.currentFolder);
+//						DirectoryPanel.this.changeDir();
+////						listModel.setDirPath(field.getText());
+////						list.setSelectedIndex(0);
+//						// sets cell prototype to accelerate rendering
+//						// of very long folders
+//						DirectoryPanel.this.list.setPrototypeCellValue(((FileListModel)list.getModel()).getLongestName());
 					}
 				}
 			}

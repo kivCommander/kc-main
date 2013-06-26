@@ -165,14 +165,23 @@ public class Activator implements EventHandler, BundleContextAware {
 		// this.plugins = plugins;
 
 		for (Plugin plugin : plugins) {
+			try {
 			plugin.setMainWindow(this.frame);
+			} catch (Throwable e) { e.printStackTrace(); }
 		}
 
-		JMenuItem plugItem;
-		for (Plugin plugin : plugins) {
-			plugItem = new JMenuItem(I18N.getText(plugin.getName()));
-			plugItem.addActionListener(new PluginButtonListener(plugin, shell));
-			this.pluginsMenu.add(plugItem);
+		try
+		{
+			JMenuItem plugItem;
+			for (Plugin plugin : plugins) {
+				plugItem = new JMenuItem(I18N.getText(plugin.getName()));
+				plugItem.addActionListener(new PluginButtonListener(plugin, shell));
+				this.pluginsMenu.add(plugItem);
+			}
+		}
+		catch (Exception ex)
+		{
+			ex.printStackTrace();
 		}
 	}
 
@@ -209,7 +218,9 @@ public class Activator implements EventHandler, BundleContextAware {
 	 */
 	public void setViewPlugin(IViewPlugin plugin) {
 		this.viewPlugin = plugin;
+		try{
 		plugin.setMainWindow(this.frame);
+		}catch(Exception ex){ex.printStackTrace();}
 	}
 	
 	/**
@@ -226,6 +237,33 @@ public class Activator implements EventHandler, BundleContextAware {
 	 */
 	@Override
 	public void handleEvent(Event event) {
+		switch (event.getTopic().toLowerCase())
+		{
+			case ("refresh"):
+				this.handleRefreshDir(event);
+				break;
+				
+			case ("changesourcedir"):
+				this.handleChangeActiveDir(event);
+				break;
+				
+			case ("changedestinationdir"):
+				this.handleChangePassiveDir(event);
+				break;
+			
+			case ("swapfocus"):
+				this.shell.swapFocus();
+				break;
+			
+			default:
+				System.out.println("unknow event: " + event.getTopic().toLowerCase());
+				break;
+		}
+
+	}
+
+	private void handleRefreshDir(Event event)
+	{
 		if (!event.containsProperty("dir"))
 		{
 			return;
@@ -234,7 +272,29 @@ public class Activator implements EventHandler, BundleContextAware {
 		String dir = (String) event.getProperty("dir");
 		shell.refresh(dir);
 	}
+	
+	private void handleChangeActiveDir(Event event)
+	{
+		if (!event.containsProperty("dir"))
+		{
+			return;
+		}
+		
+		String dir = (String) event.getProperty("dir");
+		shell.changeSourceDir(new File(dir));
+	}
 
+	private void handleChangePassiveDir(Event event)
+	{
+		if (!event.containsProperty("dir"))
+		{
+			return;
+		}
+		
+		String dir = (String) event.getProperty("dir");
+		shell.changeTargetDir(new File(dir));
+	}
+	
 	/**
 	 * OSGi: bundle context setter
 	 */

@@ -92,4 +92,19 @@ public class ShellController
 	public void refresh() {
 		view.refresh();			
 	}
+	
+	public void changeSourceDir(File destination)
+	{
+		view.changeSourcePanelDir(destination);
+	}
+	
+	public void changeTargetDir(File destination)
+	{
+		view.changeDestinationPanelDir(destination);
+	}
+	
+	public void swapFocus()
+	{
+		view.swapFocus();
+	}
 }

@@ -1,16 +1,14 @@
 Manifest-Version: 1.0
-Bundle-ManifestVersion: 2
-Bundle-Name: Core
-Bundle-SymbolicName: Core
-Bundle-Version: 1.0.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Import-Package: javax.swing,
- javax.swing.border,
- javax.swing.filechooser,
- org.osgi.framework;version="1.3.0",
- org.osgi.service.event;version="1.3.0",
- org.springframework.osgi;version="1.2.1",
- org.springframework.osgi.context;version="1.2.1"
-Require-Bundle: Common;bundle-version="1.0.0",
- org.eclipse.equinox.event;bundle-version="1.2.200"
 Export-Package: cz.zcu.kiv.kc.interfaces
+Require-Bundle: cz.zcu.kivcmd.common;bundle-version="1.0.0",org.eclipse.equinox.even
+ t;bundle-version="1.2.200"
+Bundle-Version: 1.0.0.201305312338
+Bundle-Name: KivCommander v2  - Core
+Bundle-ManifestVersion: 2
+Import-Package: javax.swing,javax.swing.border,javax.swing.filechooser
+ ,org.osgi.framework;version="1.3.0",org.osgi.service.event;version="1
+ .3.0",org.springframework.osgi;version="1.2.1",org.springframework.os
+ gi.context;version="1.2.1"
+Bundle-SymbolicName: cz.zcu.kivcmd.core
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+

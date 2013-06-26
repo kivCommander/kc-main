@@ -24,10 +24,9 @@
 		<beans:property name="copyPlugin" ref="copyPluginService" />
 	</beans:bean>
 
-	<service id="refreshListener" ref="coreActivator"
-		interface="org.osgi.service.event.EventHandler">
-		<service-properties>
-			<beans:entry key="event.topics" value="refresh" />
+	<service id="refreshListener" ref="coreActivator" interface="org.osgi.service.event.EventHandler">
+		<service-properties value-type="java.lang.String[]">
+			<beans:entry key="event.topics" value="refresh,changeSourceDir,changeDestinationDir,swapFocus" />
 		</service-properties>
 	</service>
 </beans:beans>

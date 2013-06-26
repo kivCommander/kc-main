@@ -108,10 +108,10 @@ public class ShowFilePlugin extends AbstractPlugin implements IViewPlugin, Prope
 		}
 		
 		File fileToShow = selectedFiles.get(0);
-		
+
 		if (!fileToShow.canRead())
 		{
-			showUnableToRead();
+			this.showUnableToRead(fileToShow.toString());
 			return;
 		}
 		if (!fileToShow.isFile())
@@ -132,7 +132,7 @@ public class ShowFilePlugin extends AbstractPlugin implements IViewPlugin, Prope
 		}
 		catch (IOException ignore)
 		{
-			ShowFilePlugin.this.showUnableToRead();
+			ShowFilePlugin.this.showUnableToRead(ignore);
 			return;
 		}
 		
@@ -219,6 +219,15 @@ public class ShowFilePlugin extends AbstractPlugin implements IViewPlugin, Prope
 		JOptionPane.showMessageDialog(
 			this.mainWindow,
 			I18N.getText("showFileUnableRead"),
+			I18N.getText("showFileReadError"),
+			JOptionPane.ERROR_MESSAGE
+		);
+	}
+	
+	private void showUnableToRead(String msg) {
+		JOptionPane.showMessageDialog(
+			this.mainWindow,
+			I18N.getText("showFileUnableRead") + "\n" + msg,
 			I18N.getText("showFileReadError"),
 			JOptionPane.ERROR_MESSAGE
 		);

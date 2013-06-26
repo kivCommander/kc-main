@@ -99,4 +99,33 @@ public class ShellView extends JPanel implements FocusListener {
 		// TODO Auto-generated method stub
 
 	}
+
+	public void changeSourcePanelDir(File destination)
+	{
+		this.directoryViewWithFocus.changeDir(destination);
+	}
+	
+	public void changeDestinationPanelDir(File destination)
+	{
+		if (this.directoryViewWithFocus == this.leftDirectoryView)
+		{
+			this.rightDirectoryView.changeDir(destination);
+		}
+		else
+		{
+			this.leftDirectoryView.changeDir(destination);
+		}
+	}
+
+	public void swapFocus()
+	{
+		if (this.directoryViewWithFocus == this.rightDirectoryView)
+		{
+			this.leftDirectoryView.requestFocus();
+		}
+		else
+		{
+			this.rightDirectoryView.requestFocus();
+		}
+	}	
 }
