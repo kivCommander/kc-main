@@ -1,0 +1,1 @@
+@java -Xmx1024m -Xms1024m -Xss1024m -jar org.eclipse.osgi_3.8.1.v20120830-144521.jar -console -nl en
